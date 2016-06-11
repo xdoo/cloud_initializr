@@ -61,27 +61,27 @@ public class MavenStructureServiceTest {
         FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
         MavenStructureService instance = new MavenStructureService();
         Map<String,Path> result = instance.createMavenPaths(fs, "com.foo.bar", "service-a");
-        assertEquals(5, result.size());
+        assertEquals(6, result.size());
         assertTrue(result.containsKey(MavenStructureService.MAIN_DOCKER));
         assertTrue(result.containsKey(MavenStructureService.MAIN_JAVA));
         assertTrue(result.containsKey(MavenStructureService.MAIN_RESOURCES));
         assertTrue(result.containsKey(MavenStructureService.TEST_JAVA));
         assertTrue(result.containsKey(MavenStructureService.TEST_RESOURCES));
+        
+        System.out.println("path --> " + result.get(MavenStructureService.BASE).toString());
     }
     
     @Test
     public void testCleanPackageName() {
         System.out.println("cleanPackageName");
-        MavenStructureService instance = new MavenStructureService();
-        String result = instance.cleanPackageName("com.foo.bar");
+        String result = Util.cleanPackageName("com.foo.bar");
         assertEquals("com/foo/bar", result);
     }
     
     @Test
     public void testCleanServiceName() {
         System.out.println("cleanServiceName");
-        MavenStructureService instance = new MavenStructureService();
-        String result = instance.cleanServiceName("foo-bar.fuu_bor");
+        String result = Util.cleanServiceName("foo-bar.fuu_bor");
         assertEquals("foobarfuubor", result);
     }
 

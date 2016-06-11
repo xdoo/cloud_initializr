@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>${domainName}</groupId>
-    <artifactId>${serviceName}</artifactId>
-    <version>${serviceVersion}</version>
+    <groupId>${domainPath}</groupId>
+    <artifactId>${service.name}</artifactId>
+    <version>${service.version}</version>
     <packaging>jar</packaging>
 
-    <name>${serviceName}</name>
+    <name>${service.name}</name>
     <description>generated microservice</description>
 
     <parent>

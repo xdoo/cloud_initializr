@@ -23,6 +23,7 @@ public class MavenStructureService {
     private final String main = "/src/main";
     private final String test = "/src/test";
     
+    public static final String BASE = "base_path";
     public static final String MAIN_JAVA = "main_java";
     public static final String MAIN_RESOURCES = "main_resources";
     public static final String MAIN_DOCKER = "main_docker";
@@ -34,8 +35,8 @@ public class MavenStructureService {
         
         // paths
         Map<String,Path> paths = this.createMavenPaths(fs,
-                "/" + this.cleanPackageName(domain), 
-                this.cleanServiceName(name));
+                "/" + Util.cleanPackageName(domain), 
+                Util.cleanServiceName(name));
         
         // create directories
         this.createDirectories(paths);
@@ -45,7 +46,8 @@ public class MavenStructureService {
     
     public Map<String,Path> createMavenPaths(FileSystem fs, String domain, String name) {
         Map<String,Path> paths = new HashMap<>();
-
+        
+        paths.put(BASE, fs.getPath(name));
         paths.put(MAIN_JAVA, fs.getPath(name + "/" + main + "/java" + domain + "/" + name));
         paths.put(MAIN_RESOURCES, fs.getPath(name + "/" + main + "/resources"));
         paths.put(MAIN_DOCKER, fs.getPath(name + "/" + main + "/docker"));
@@ -64,14 +66,5 @@ public class MavenStructureService {
                 LOG.log(Level.SEVERE, null, ex);
             }
         });
-    }
-    
-    public String cleanPackageName(String packageName) {
-        return packageName.replaceAll("\\.", "/");
-    }
-    
-    public String cleanServiceName(String name) {
-        return name.replaceAll("-", "").replaceAll("_", "").replaceAll("\\.", "").toLowerCase();
-    }
-    
+    }    
 }
