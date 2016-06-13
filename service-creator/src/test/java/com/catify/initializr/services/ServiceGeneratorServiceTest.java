@@ -4,7 +4,6 @@ import com.catify.initializr.ServiceCreatorApplication;
 import com.catify.initializr.domain.Domain;
 import com.catify.initializr.domain.Service;
 import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,10 +21,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(ServiceCreatorApplication.class)
-public class GeneratorServiceTest {
+public class ServiceGeneratorServiceTest {
     
     @Autowired
-    private GeneratorService service;
+    private ServiceGeneratorService service;
     
     @Test
     public void testCreateDomain() throws IOException{

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @author claus
  */
 @Service
-public class GeneratorService {
+public class ServiceGeneratorService {
      
     private final Configuration cfg;
     private final MavenStructureService mvn;
@@ -31,7 +31,7 @@ public class GeneratorService {
     public final static String DOMAIN_SERVICE = "sevice";
 
     @Autowired
-    public GeneratorService(Configuration cfg, MavenStructureService mvn) {
+    public ServiceGeneratorService(Configuration cfg, MavenStructureService mvn) {
         this.cfg = cfg;
         this.mvn = mvn;
     }
@@ -78,7 +78,7 @@ public class GeneratorService {
         try {
             Files.write(path, ImmutableList.of(pom), StandardCharsets.UTF_8);
         } catch (IOException ex) {
-            Logger.getLogger(GeneratorService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }
@@ -88,7 +88,7 @@ public class GeneratorService {
         try {
             Files.write(path, ImmutableList.of(this.dockerTpl), StandardCharsets.UTF_8);
         } catch (IOException ex) {
-            Logger.getLogger(GeneratorService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -98,7 +98,7 @@ public class GeneratorService {
         try {
             Files.write(path, ImmutableList.of(props), StandardCharsets.UTF_8);
         } catch (IOException ex) {
-            Logger.getLogger(GeneratorService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
