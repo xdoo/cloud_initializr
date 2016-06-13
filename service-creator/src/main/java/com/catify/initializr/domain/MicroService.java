@@ -4,14 +4,17 @@ package com.catify.initializr.domain;
  *
  * @author claus
  */
-public class Service {
+public class MicroService {
     
     private String name;
     private String version;
 
-    public Service(String name, String version) {
+    public MicroService(String name, String version) {
         this.name = name;
         this.version = version;
+    }
+
+    public MicroService() {
     }
 
     public String getName() {

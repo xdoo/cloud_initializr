@@ -1,16 +1,14 @@
 package com.catify.initializr.services;
 
 import com.catify.initializr.domain.Domain;
+import com.catify.initializr.domain.MicroService;
 import com.google.common.collect.ImmutableList;
-import com.google.common.jimfs.Jimfs;
-import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,43 +21,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceGeneratorService {
      
-    private final Configuration cfg;
     private final MavenStructureService mvn;
-    
-    public final static String DOMAIN_NAME = "domainName";
-    public final static String DOMAIN_PATH = "domainPath";
-    public final static String DOMAIN_SERVICE = "sevice";
 
     @Autowired
-    public ServiceGeneratorService(Configuration cfg, MavenStructureService mvn) {
-        this.cfg = cfg;
+    public ServiceGeneratorService(MavenStructureService mvn) {
         this.mvn = mvn;
     }
     
-    public FileSystem createDomain(Domain domain) {
-        Map<String, Object> model = new ConcurrentHashMap<>();
-        FileSystem fs = Jimfs.newFileSystem(com.google.common.jimfs.Configuration.unix());
-        
-        model.put(DOMAIN_NAME, domain.getName());
-        model.put(DOMAIN_PATH, domain.getBasePath());
-        
-        domain.getServices().stream().map((service) -> {
-            model.put(DOMAIN_SERVICE, service);
-            return service;
-        }).forEach((_item) -> {
-            this.createService(model, fs);
-        });
-        return fs;
-    }
-    
-    public void createService(Map<String, Object> model, FileSystem fs) {
+    public void createService(Domain domain, int index, FileSystem fs) {
         
         // create maven project
-        com.catify.initializr.domain.Service service = (com.catify.initializr.domain.Service) model.get(DOMAIN_SERVICE);
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) model.get(DOMAIN_PATH),  service.getName());
+        MicroService service = domain.getServices().get(index);
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) domain.getBasePath(),  service.getName());
         
         // create pom
-        this.createServicePom(service, model, fs, paths);
+        this.createServicePom(service, domain.getBasePath(), fs, paths);
         
         // create docker file
         this.createServiceDockerFile(fs, paths);
@@ -68,10 +44,10 @@ public class ServiceGeneratorService {
         this.createPropertiesFile(service, fs, paths);
     }
     
-    public void createServicePom(com.catify.initializr.domain.Service service, Map<String, Object> model, FileSystem fs, Map<String, Path> paths) {
+    public void createServicePom(MicroService service, String basePath, FileSystem fs, Map<String, Path> paths) {
         Path path = paths.get(MavenStructureService.BASE).resolve("pom.xml");
         String pom = String.format(this.pomTpl,
-                model.get(DOMAIN_PATH),
+                basePath,
                 service.getName(),
                 service.getVersion(),
                 service.getName());
@@ -92,7 +68,7 @@ public class ServiceGeneratorService {
         }
     }
     
-    public void createPropertiesFile(com.catify.initializr.domain.Service service, FileSystem fs, Map<String, Path> paths) {
+    public void createPropertiesFile(com.catify.initializr.domain.MicroService service, FileSystem fs, Map<String, Path> paths) {
         Path path = paths.get(MavenStructureService.MAIN_RESOURCES).resolve("application.yml");
         String props = String.format(this.propertiesTpl, service.getName());
         try {

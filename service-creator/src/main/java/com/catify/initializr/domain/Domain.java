@@ -11,7 +11,7 @@ public class Domain {
     
     private String name;
     private String basePath;
-    private List<Service> services;
+    private List<MicroService> services;
 
     public Domain() {
         this.services = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Domain {
         this.services = new ArrayList<>();
     }
 
-    public Domain(final String name, final String basePath, final List<Service> services) {
+    public Domain(final String name, final String basePath, final List<MicroService> services) {
         this.name = name;
         this.basePath = basePath;
         this.services = services;
@@ -47,15 +47,15 @@ public class Domain {
         this.basePath = basePath;
     }
 
-    public List<Service> getServices() {
+    public List<MicroService> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(List<MicroService> services) {
         this.services = services;
     }
     
-    public void addService(Service service) {
+    public void addService(MicroService service) {
         this.services.add(service);
     }
     
