@@ -3,6 +3,7 @@ package com.catify.initializr.services;
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipOutputStream;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -67,6 +69,11 @@ public class ZipTest {
         // write zip file to hdd
         Path hhd = Paths.get("my-downloaded.zip");
         Files.write(hhd, Files.readAllBytes(zipPath));
+        
+        File toFile = hhd.toFile();
+        
+        Assert.assertNotNull(toFile);
+        Assert.assertTrue(toFile instanceof File);
         
         fs.close();
 
