@@ -1,0 +1,47 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="my-new-view">
+
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 16px;
+      }
+    </style>
+    <iron-ajax
+     id="ajax"
+     url="http://localhost:8080/zip/"
+     handle-as="blob"
+     content-type="application/json"
+     method="POST"
+     body='{"name": "My-Domain", "basePath": "com.my.domain", "services": [{"name": "service-a", "version": "0.0.1-SNAPSHOT"}, {"name": "service-b", "version": "0.0.1-SNAPSHOT"}]}'
+     on-response="handleResponse"
+     debounce-duration="3000">
+ </iron-ajax>
+ <button on-click="setajax">Generate Cloud Project</button>
+  </template>
+
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'my-new-view',
+      properties: {
+        route: Object
+      },
+      setajax: function () {
+        this.$.ajax.generateRequest();
+      },
+      handleResponse: function(request) {
+        var blob = request.detail.response;
+        console.log(request.detail.response);
+
+        var url  = window.URL.createObjectURL(blob);
+        window.location.assign(url);
+      }
+    });
+  </script>
+
+</dom-module>
