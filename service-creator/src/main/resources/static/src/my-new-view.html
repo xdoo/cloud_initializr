@@ -1,10 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-
+<link rel="import" href="../elements/domain-download/domain-download.html">
 <dom-module id="my-new-view">
 
   <!-- Defines the element's style and local DOM -->
@@ -14,44 +8,8 @@
         display: block;
         padding: 16px;
       }
-      paper-button.custom {
-        --paper-button-ink-color: var(--paper-pink-a200);
-        /* These could also be individually defined for each of the
-          specific css classes, but we'll just do it once as an example */
-        --paper-button-flat-keyboard-focus: {
-          background-color: var(--paper-pink-a200);
-          color: white !important;
-        };
-        --paper-button-raised-keyboard-focus: {
-          background-color: var(--paper-pink-a200) !important;
-          color: white !important;
-        };
-      }
-      paper-button.custom:hover {
-        background-color: var(--paper-indigo-100);
-      }
-      paper-button.green {
-        background-color: var(--paper-green-500);
-        color: white;
-      }
     </style>
-    <iron-ajax
-     id="ajax"
-     url="http://localhost:8080/zip/"
-     handle-as="blob"
-     content-type="application/json"
-     method="POST"
-     body='{"name": "My-Domain", "basePath": "com.my.domain", "services": [{"name": "service-a", "version": "0.0.1-SNAPSHOT"}, {"name": "service-b", "version": "0.0.1-SNAPSHOT"}]}'
-     on-response="handleResponse"
-     debounce-duration="3000">
- </iron-ajax>
- <paper-button
-    toggles
-    raised
-    on-tap="setajax"
-    class="custom green">
-    <iron-icon icon="cloud-download"></iron-icon>&nbsp;Generate Cloud Project
-  </paper-button>
+    <domain-download post-body="{{payload}}"></domain-download>
  <!-- <button on-click="setajax">Generate Cloud Project</button> -->
   </template>
 
@@ -60,17 +18,11 @@
     Polymer({
       is: 'my-new-view',
       properties: {
-        route: Object
-      },
-      setajax: function () {
-        this.$.ajax.generateRequest();
-      },
-      handleResponse: function(request) {
-        var blob = request.detail.response;
-        console.log(request.detail.response);
-
-        var url  = window.URL.createObjectURL(blob);
-        window.location.assign(url);
+        route: Object,
+        payload: {
+          type: Object,
+          value: '{"name": "My-Domain", "basePath": "com.my.domain", "services": [{"name": "service-a", "version": "0.0.1-SNAPSHOT"}, {"name": "service-b", "version": "0.0.1-SNAPSHOT"}]}'
+        }
       }
     });
   </script>
