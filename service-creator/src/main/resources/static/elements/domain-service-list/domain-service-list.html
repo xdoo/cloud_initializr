@@ -1,0 +1,24 @@
+<dom-module id="domain-service-list">
+
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        padding: 16px;
+      }
+    </style>
+    
+  </template>
+
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'domain-service-list',
+      properties: {
+        domain: Object
+      }
+    });
+  </script>
+
+</dom-module>
