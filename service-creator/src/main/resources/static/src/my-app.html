@@ -72,16 +72,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed>
 
       <!-- Drawer content -->
-      <app-drawer>
+      <!--<app-drawer>
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="new-view" href="/new-view">New View</a>
           <a name="view1" href="/view1">View One</a>
           <a name="view2" href="/view2">View Two</a>
           <a name="view3" href="/view3">View Three</a>
-          <a name="new-view" href="/new-view">New View</a>
           <a name="initializer" href="/initializer">Initializer</a>
         </iron-selector>
-      </app-drawer>
+      </app-drawer>-->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -94,10 +94,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header>
 
         <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+          <my-new-view name="new-view"></my-new-view>
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
-          <my-new-view name="new-view"></my-new-view>
           <initializer name="initializer"></initializer>
         </iron-pages>
 
@@ -128,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       _routePageChanged: function(page) {
-        this.page = page || 'view1';
+        this.page = page || 'new-view';
       },
 
       _pageChanged: function(page) {

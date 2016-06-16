@@ -1,3 +1,6 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+
 <dom-module id="domain-service-list">
 
   <!-- Defines the element's style and local DOM -->
@@ -7,8 +10,25 @@
         display: block;
         padding: 16px;
       }
+
+      iron-list {
+        @apply(--layout-fit);
+      }
+
+      .item {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
     </style>
-    
+    <p>
+      Domain: {{foo.name}} ([[foo.basePath]]) and [[foo.services]] or [[arrayItem(foo.services.*, 0, 'name')]]
+    </p>
+    <iron-list items="[[foo.services]]" as="item">
+      <div class="item">
+        <b>#[[index]] - [[item.name]] and [[item]]</b>
+      </div>
+    </iron-list>
+
   </template>
 
   <!-- Creates the element's prototype and registers it -->
@@ -16,7 +36,43 @@
     Polymer({
       is: 'domain-service-list',
       properties: {
-        domain: Object
+        domain: Object,
+        foo: {
+          type: Object,
+          value: {
+            name: 'Foo-Domain',
+            basePath: 'com.foo.base',
+            services: [
+              {
+                name: 'service-a',
+                version: '1.0'
+              },
+              {
+                name: 'service-b',
+                version: '1.0'
+              }
+            ]
+          }
+        },
+        bar: {
+          type: Array,
+          value: [
+            {
+              'name': 'service-a',
+              'version': '1.0'
+            },
+            {
+              'name': 'service-b',
+              'version': '1.0'
+            }
+          ]
+        }
+      },
+
+      arrayItem: function(change, index, path) {
+        // this.get(path, root) returns a value for a path
+        // relative to a root object.
+        return this.get(path, change.base[index]);
       }
     });
   </script>

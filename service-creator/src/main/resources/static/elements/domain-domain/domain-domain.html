@@ -1,0 +1,60 @@
+<link rel="import" href="../domain-download/domain-download.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="domain-domain">
+
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        padding: 16px;
+      }
+
+      iron-list {
+        @apply(--layout-fit);
+      }
+
+      .item {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+    </style>
+    [[domain]]
+    <p>
+      <paper-input label="domain name" value="{{domain.name}}"></paper-input>
+      <paper-input label="domain base path" value="{{domain.basePath}}"></paper-input>
+    </p>
+
+    <p>
+      name: {{domain.name}} with path: {{domain.basePath}}
+    </p>
+
+    <!--<iron-list items="[[domain.services]]" as="item">
+      <div class="item">
+        <b>#[[index]] - [[item.name]] and [[item]]</b>
+      </div>
+    </iron-list>-->
+    <p>
+      <domain-download domain="{{domain}}"></domain-download>
+    </p>
+
+  </template>
+
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'domain-domain',
+      properties: {
+        domain: {
+          type: Object,
+          value: {}
+        }
+      }
+    });
+  </script>
+
+</dom-module>

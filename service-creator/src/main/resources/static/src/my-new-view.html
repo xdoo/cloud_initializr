@@ -1,4 +1,4 @@
-<link rel="import" href="../elements/domain-download/domain-download.html">
+<link rel="import" href="../elements/domain-domain/domain-domain.html">
 <dom-module id="my-new-view">
 
   <!-- Defines the element's style and local DOM -->
@@ -8,8 +8,19 @@
         display: block;
         padding: 16px;
       }
+
+      .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        margin: 24px;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #757575;
+      }
     </style>
-    <domain-download post-body="{{payload}}"></domain-download>
+    <div class="card">
+      <domain-domain></domain-domain>
+    </div>
  <!-- <button on-click="setajax">Generate Cloud Project</button> -->
   </template>
 
@@ -19,10 +30,16 @@
       is: 'my-new-view',
       properties: {
         route: Object,
-        payload: {
+        domain: {
           type: Object,
           value: '{"name": "My-Domain", "basePath": "com.my.domain", "services": [{"name": "service-a", "version": "0.0.1-SNAPSHOT"}, {"name": "service-b", "version": "0.0.1-SNAPSHOT"}]}'
         }
+      },
+
+      parseJson: function(json) {
+        // this.get(path, root) returns a value for a path
+        // relative to a root object.
+        return JSON.parse(json);
       }
     });
   </script>

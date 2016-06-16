@@ -41,7 +41,7 @@
      handle-as="blob"
      content-type="application/json"
      method="POST"
-     body="[[postBody]]"
+     body="[[domain]]"
      on-response="handleResponse"
      debounce-duration="3000">
  </iron-ajax>
@@ -59,7 +59,7 @@
     Polymer({
       is: 'domain-download',
       properties: {
-        postBody: Object
+        domain: Object
       },
       setajax: function () {
         this.$.ajax.generateRequest();
