@@ -1,3 +1,5 @@
+<link rel="import" href="../domain-card/domain-card.html">
+<link rel="import" href="../domain-service-card/domain-service-card.html">
 <link rel="import" href="../domain-download/domain-download.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
@@ -8,26 +10,39 @@
   <!-- Defines the element's style and local DOM -->
   <template>
     <style is="custom-style">
-      :host {
-        display: block;
-        padding: 16px;
+
+      #card {
+        width: 100%;
       }
 
-      iron-list {
-        @apply(--layout-fit);
-      }
+      #domain {
+              @apply(--layout-horizontal);
+              @apply(--layout-wrap);
+            }
+            #domain > domain-card {
+              box-sizing: border-box;
+              max-width: 184px;
+              margin: 4px;
+              flex: 0 0 auto;
+            }
 
-      .item {
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-      }
+            #domain > domain-service-card {
+              box-sizing: border-box;
+              max-width: 184px;
+              margin: 4px;
+              flex: 0 0 auto;
+            }
 
     </style>
-    [[domain]]
-    <p>
-      <paper-input label="domain name" value="{{domain.name}}"></paper-input>
-      <paper-input label="domain base path" value="{{domain.basePath}}"></paper-input>
-    </p>
+    <div id="domain">
+      <domain-card id="card" name="{{domain.name}}" path="{{domain.basePath}}"></domain-card>
+      <domain-service-card id="card" name="service-a"></domain-service-card>
+      <domain-service-card id="card" name="service-b"></domain-service-card>
+      <domain-service-card id="card" name="service-c"></domain-service-card>
+      <domain-service-card id="card" name="service-a"></domain-service-card>
+      <domain-service-card id="card" name="service-b"></domain-service-card>
+      <domain-service-card id="card" name="service-c"></domain-service-card>
+    </div>
 
     <p>
       name: {{domain.name}} with path: {{domain.basePath}}
