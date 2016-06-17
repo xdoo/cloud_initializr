@@ -112,11 +112,12 @@
       },
 
       addService: function(e) {
-        if( 13 === e.charCode) {
+        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if( key === 13) {
           var service = {};
           service.name=this.servicename;
           this.push('services', service);
-          console.log('service' + service.name + 'added...');
+          console.log('service ' + service.name + ' added...');
           this.servicename = '';
         }
       },
@@ -124,7 +125,7 @@
       removeService: function(e) {
         var index = this.services.indexOf(e.model.item);
         this.splice('services', index, 1);
-        console.log('service' + e.model.item.name + 'removed...');
+        console.log('service ' + e.model.item.name + ' removed...');
       }
     });
   </script>
