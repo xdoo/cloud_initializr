@@ -12,32 +12,28 @@ import org.springframework.stereotype.Service;
  * @author claus
  */
 @Service
-public class RegistryGeneratorService {
+public class ProxyGeneratorService {
 
     private final MavenStructureService mvn;
     private final DockerGeneratorService docker;
 
     @Autowired
-    public RegistryGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
+    public ProxyGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
         this.mvn = mvn;
         this.docker = docker;
     }
 
-    public void createRegistry(Domain domain, FileSystem fs) {
+    public void createProxy(FileSystem fs, Domain domain) {
         // create maven project
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain.getPath(), "registry");
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain.getPath(), "proxy");
 
         // create pom
         this.createPom(paths, domain.getPath());
-
+        
         // create properties file
-        this.createPropertiesFile(paths);
-
+        
         // create docker file
         this.docker.createServiceDockerFile(paths);
-
-        // create application file
-        this.createApplicationFile(paths, domain.getPath());
     }
 
     public void createPom(Map<String, Path> paths, String groupId) {
@@ -45,16 +41,11 @@ public class RegistryGeneratorService {
         String pom = String.format(this.pomTpl, groupId);
         Util.writeToFile(pom, path);
     }
-
-    public void createPropertiesFile(Map<String, Path> paths) {
-        Path path = paths.get(MavenStructureService.MAIN_RESOURCES).resolve("application.yml");
-        Util.writeToFile(this.propertiesTpl, path);
-    }
     
-    public void createApplicationFile(Map<String, Path> paths, String groupId) {
-        Path path = paths.get(MavenStructureService.MAIN_JAVA).resolve("Application.java");
-        String app = String.format(this.applicationTpl, groupId);
-        Util.writeToFile(app, path);
+    public void createPropertiesFile(Map<String, Path> paths, Domain domain) {
+        Path path = paths.get(MavenStructureService.MAIN_RESOURCES).resolve("application.yml");
+        
+        
     }
 
     private final String pomTpl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -63,12 +54,12 @@ public class RegistryGeneratorService {
             + "    <modelVersion>4.0.0</modelVersion>\n"
             + "\n"
             + "    <groupId>%s</groupId>\n"
-            + "    <artifactId>service-registry</artifactId>\n"
+            + "    <artifactId>service-proxy</artifactId>\n"
             + "    <version>0.0.1-SNAPSHOT</version>\n"
             + "    <packaging>jar</packaging>\n"
             + "\n"
-            + "    <name>service-registry</name>\n"
-            + "    <description>generated service registry</description>\n"
+            + "    <name>service-proxy</name>\n"
+            + "    <description>generated service proxy</description>\n"
             + "\n"
             + "    <parent>\n"
             + "        <groupId>org.springframework.boot</groupId>\n"
@@ -85,7 +76,11 @@ public class RegistryGeneratorService {
             + "    <dependencies>\n"
             + "        <dependency>\n"
             + "            <groupId>org.springframework.cloud</groupId>\n"
-            + "            <artifactId>spring-cloud-starter-eureka-server</artifactId>\n"
+            + "            <artifactId>spring-cloud-starter-eureka</artifactId>\n"
+            + "        </dependency>\n"
+            + "        <dependency>\n"
+            + "            <groupId>org.springframework.cloud</groupId>\n"
+            + "            <artifactId>spring-cloud-starter-zuul</artifactId>\n"
             + "        </dependency>\n"
             + "		\n"
             + "        <dependency>\n"
@@ -145,53 +140,43 @@ public class RegistryGeneratorService {
             + "    #\n"
             + "    # SPRING_PROFILES_ACTIVE=docker\n"
             + "    profiles.active: local\n"
-            + "    cloud.config.discovery.enabled: true\n"
-            + "    application.name: discovery\n"
+            + "    application.name: Zuul\n"
             + "\n"
-            + "# don't register with your self\n"
-            + "eureka.client:\n"
-            + "    registerWithEureka: false\n"
-            + "    fetchRegistry: false\n"
+            + "# zuul proxy always exposes 8080 \n"
+            + "server.port: 8080\n"
             + "\n"
-            + "  \n"
+            + "# zuul routes\n"
+            + "zuul:\n"
+            + "  ignoredServices: '*'\n"
+            + "  routes:\n"
+            + "    servicea:\n"
+            + "      path: /**\n"
+            + "      serviceId: DemoServiceA\n"
+            + "\n"
             + "---\n"
             + "# LOCAL CONFIGURATION\n"
             + "spring:\n"
-            + "  profiles: local\n"
-            + "eureka:\n"
-            + "  instance:\n"
-            + "    hostname: localhost\n"
-            + "endpoints:\n"
-            + "  health:\n"
-            + "    sensitive: false\n"
-            + "\n"
-            + "# use always the standard server port\n"
-            + "server.port: 8761\n"
-            + "\n"
+            + "    profiles: local\n"
+            + "      \n"
+            + "      \n"
+            + "eureka.client:\n"
+            + "    # in local mode you have to run your service \n"
+            + "    # discovery on localhost (you also can run the \n"
+            + "    # cloud infrastructure on your local docker host)\n"
+            + "    serviceUrl.defaultZone: http://localhost:8761/eureka/\n"
+            + "    # fetch all 5 seconds the delta from the service registry\n"
+            + "    registry-fetch-interval-seconds: 5\n"
+            + "      \n"
             + "---\n"
             + "# DOCKER CONFIGURATION\n"
             + "spring:\n"
-            + "  profiles: docker\n"
-            + "eureka:\n"
-            + "  instance:\n"
-            + "    hostname: discovery\n"
+            + "    profiles: docker\n"
             + "    \n"
-            + "# server port will be mapped with docker\n"
-            + "server.port: 8080";
-
-    private final String applicationTpl = "package %s.registry;\n"
             + "\n"
-            + "import org.springframework.boot.SpringApplication;\n"
-            + "import org.springframework.boot.autoconfigure.SpringBootApplication;\n"
-            + "import org.springframework.cloud.netflix.zuul.EnableZuulProxy;\n"
-            + "\n"
-            + "@SpringBootApplication\n"
-            + "@EnableZuulProxy\n"
-            + "public class DemoProxyApplication {\n"
-            + "\n"
-            + "	public static void main(String[] args) {\n"
-            + "		SpringApplication.run(DemoProxyApplication.class, args);\n"
-            + "	}\n"
-            + "}";
+            + "eureka.client:\n"
+            + "    # the hostname of your eureka server should be 'discovery'\n"
+            + "    serviceUrl.defaultZone: http://discovery:8761/eureka/\n"
+            + "    # fetch all 5 seconds the delta from the service registry\n"
+            + "    registry-fetch-interval-seconds: 5";
 
 }

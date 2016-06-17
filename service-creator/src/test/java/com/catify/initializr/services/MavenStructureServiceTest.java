@@ -70,19 +70,5 @@ public class MavenStructureServiceTest {
         
         System.out.println("path --> " + result.get(MavenStructureService.BASE).toString());
     }
-    
-    @Test
-    public void testCleanPackageName() {
-        System.out.println("cleanPackageName");
-        String result = Util.cleanPackageName("com.foo.bar");
-        assertEquals("com/foo/bar", result);
-    }
-    
-    @Test
-    public void testCleanServiceName() {
-        System.out.println("cleanServiceName");
-        String result = Util.cleanServiceName("foo-bar.fuu_bor");
-        assertEquals("foobarfuubor", result);
-    }
 
 }

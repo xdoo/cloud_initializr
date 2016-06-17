@@ -62,7 +62,7 @@ public class ServiceGeneratorService {
     
     public void createPropertiesFile(com.catify.initializr.domain.MicroService service, FileSystem fs, Map<String, Path> paths) {
         Path path = paths.get(MavenStructureService.MAIN_RESOURCES).resolve("application.yml");
-        String props = String.format(this.propertiesTpl, service.getName());
+        String props = String.format(this.propertiesTpl, Util.createServiceId(service.getName()));
         try {
             Files.write(path, ImmutableList.of(props), StandardCharsets.UTF_8);
         } catch (IOException ex) {

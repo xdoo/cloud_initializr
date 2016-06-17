@@ -16,17 +16,22 @@ public class DomainGeneratorService {
     
     private final ServiceGeneratorService serviceGen;
     private final RegistryGeneratorService registryGen;
+    private final ProxyGeneratorService proxyGen;
 
     @Autowired
-    public DomainGeneratorService(ServiceGeneratorService serviceGen, RegistryGeneratorService registryGen) {
+    public DomainGeneratorService(ServiceGeneratorService serviceGen, RegistryGeneratorService registryGen, ProxyGeneratorService proxyGen) {
         this.serviceGen = serviceGen;
         this.registryGen = registryGen;
+        this.proxyGen = proxyGen;
     }
     
     public void createDomain(Domain domain, FileSystem fs) {
         
         // create registry
         this.registryGen.createRegistry(domain, fs);
+        
+        // create proxy
+        this.proxyGen.createProxy(fs, domain);
         
         // create services
         List<MicroService> services = domain.getServices();

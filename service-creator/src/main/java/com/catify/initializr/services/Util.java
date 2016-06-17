@@ -1,5 +1,6 @@
 package com.catify.initializr.services;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +21,10 @@ public class Util {
     
     public static String cleanServiceName(String name) {
         return name.replaceAll("-", "").replaceAll("_", "").replaceAll("\\.", "").toLowerCase();
+    }
+    
+    public static String createServiceId(String name) {
+        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name.replaceAll("-", "_"));
     }
     
     public static void writeToFile(String content, Path path) {
