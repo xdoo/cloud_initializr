@@ -5,16 +5,22 @@
     .card {
       color: white;
       --paper-card-header-color: white;
-      background: var(--paper-cyan-500);
+      background: var(--paper-grey-400);
       box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-      padding: 8px;
-      margin: 4px;
       border-radius: 3px;
-      color: #757575;
+      height: 250px;
+      width: 184px;
+    }
+    .content {
+      padding: 10px;
     }
   </style>
   <template>
-    <paper-card heading="[[name]]" class="card"></paper-card>
+    <paper-card heading="[[name]]" class="card">
+      <div class="content">
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore...
+      </div>
+    </paper-card>
   </template>
   <script>
     Polymer({

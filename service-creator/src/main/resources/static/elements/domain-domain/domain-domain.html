@@ -4,59 +4,89 @@
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="domain-domain">
 
   <!-- Defines the element's style and local DOM -->
   <template>
     <style is="custom-style">
-
-      #card {
-        width: 100%;
+      .flex-horizontal {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
       }
 
-      #domain {
-              @apply(--layout-horizontal);
-              @apply(--layout-wrap);
-            }
-            #domain > domain-card {
-              box-sizing: border-box;
-              max-width: 184px;
-              margin: 4px;
-              flex: 0 0 auto;
-            }
+      .flex-horizontal > paper-input {
+        margin: 3px;
+      }
 
-            #domain > domain-service-card {
-              box-sizing: border-box;
-              max-width: 184px;
-              margin: 4px;
-              flex: 0 0 auto;
-            }
+      .flex-horizontal > iron-icon {
+        margin-right: 5px;
+      }
+
+      .services {
+        padding: 20px;
+      }
+
+      .footer {
+        color: var(--google-grey-500);
+        font-size: 10px;
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+
+      .flex-end-align {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
 
     </style>
-    <div id="domain">
-      <domain-card id="card" name="{{domain.name}}" path="{{domain.basePath}}"></domain-card>
-      <domain-service-card id="card" name="service-a"></domain-service-card>
-      <domain-service-card id="card" name="service-b"></domain-service-card>
-      <domain-service-card id="card" name="service-c"></domain-service-card>
-      <domain-service-card id="card" name="service-a"></domain-service-card>
-      <domain-service-card id="card" name="service-b"></domain-service-card>
-      <domain-service-card id="card" name="service-c"></domain-service-card>
-    </div>
+    <paper-card heading="{{domain.name}}" image="../../images/card_bgr.png" class="white">
+      <div class="card-content flex-horizontal">
+        <paper-input label="domain name" value="{{domain.name}}"></paper-input>
+        <paper-input label="domain base path" value="{{domain.path}}"></paper-input>
+        <span class="flexchild"></span>
 
-    <p>
-      name: {{domain.name}} with path: {{domain.basePath}}
-    </p>
-
-    <!--<iron-list items="[[domain.services]]" as="item">
-      <div class="item">
-        <b>#[[index]] - [[item.name]] and [[item]]</b>
+        <paper-input label=" new service name" on-keypress="addService" value="{{servicename}}">
+          <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
+        </paper-input>
       </div>
-    </iron-list>-->
-    <p>
-      <domain-download domain="{{domain}}"></domain-download>
-    </p>
+      <div class="card-actions services flex-horizontal">
+        <iron-icon icon="image:blur-on"></iron-icon>
+        <span class="flexchild">registry (eureka)</span>
+        <paper-icon-button  icon="clear" title="delete" disabled></paper-icon-button >
+      </div>
+      <div class="card-actions services flex-horizontal">
+        <iron-icon icon="image:blur-circular"></iron-icon>
+        <span class="flexchild">proxy (zuul)</span>
+        <paper-icon-button  icon="clear" title="delete" disabled></paper-icon-button >
+      </div>
+      <template is="dom-repeat" items="{{services}}">
+          <div class="card-actions services flex-horizontal">
+            <iron-icon icon="image:adjust"></iron-icon>
+            <span class="flexchild">{{item.name}}</span>
+            <paper-icon-button  icon="clear" title="delete" on-tap="removeService"></paper-icon-button >
+          </div>
+      </template>
+      <div class="card-actions">
+        <domain-download domain="{{domain}}"></domain-download>
+      </div>
+    </paper-card>
 
+    <p class="footer">
+      Coded in Munich with <iron-icon icon="icons:favorite"></iron-icon>.
+    </p>
   </template>
 
   <!-- Creates the element's prototype and registers it -->
@@ -66,8 +96,35 @@
       properties: {
         domain: {
           type: Object,
-          value: {}
+          value: {},
+          notify: true
+        },
+        services: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+        servicename: {
+          type: String,
+          value: '',
+          notify: true
         }
+      },
+
+      addService: function(e) {
+        if( 13 === e.charCode) {
+          var service = {};
+          service.name=this.servicename;
+          this.push('services', service);
+          console.log('service' + service.name + 'added...');
+          this.servicename = '';
+        }
+      },
+
+      removeService: function(e) {
+        var index = this.services.indexOf(e.model.item);
+        this.splice('services', index, 1);
+        console.log('service' + e.model.item.name + 'removed...');
       }
     });
   </script>
