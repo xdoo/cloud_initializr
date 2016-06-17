@@ -22,12 +22,14 @@ import org.springframework.stereotype.Service;
 public class ServiceGeneratorService {
      
     private final MavenStructureService mvn;
-
-    @Autowired
-    public ServiceGeneratorService(MavenStructureService mvn) {
-        this.mvn = mvn;
-    }
+    private final DockerGeneratorService docker;
     
+    @Autowired
+    public ServiceGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
+        this.mvn = mvn;
+        this.docker = docker;
+    }
+
     public void createService(Domain domain, int index, FileSystem fs) {
         
         // create maven project
@@ -38,7 +40,7 @@ public class ServiceGeneratorService {
         this.createServicePom(service, domain.getPath(), fs, paths);
         
         // create docker file
-        this.createServiceDockerFile(fs, paths);
+        this.docker.createServiceDockerFile(paths);
         
         // create properties
         this.createPropertiesFile(service, fs, paths);
@@ -56,15 +58,6 @@ public class ServiceGeneratorService {
             Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-    }
-    
-    public void createServiceDockerFile(FileSystem fs, Map<String, Path> paths) {
-        Path path = paths.get(MavenStructureService.MAIN_DOCKER).resolve("Dockerfile");
-        try {
-            Files.write(path, ImmutableList.of(this.dockerTpl), StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public void createPropertiesFile(com.catify.initializr.domain.MicroService service, FileSystem fs, Map<String, Path> paths) {
@@ -167,28 +160,6 @@ public class ServiceGeneratorService {
                                 "	\n" +
                                 "\n" +
                                 "</project>";
-    
-    private final String dockerTpl =  "FROM java:8\n" +
-                                "\n" +
-                                "# environment\n" +
-                                "EXPOSE 8080\n" +
-                                "\n" +
-                                "# executable\n" +
-                                "ADD @project.artifactId@-@project.version@.jar app.jar\n" +
-                                "\n" +
-                                "# create group\n" +
-                                "RUN groupadd service\n" +
-                                "RUN chgrp service app.jar\n" +
-                                "\n" +
-                                "# create user\n" +
-                                "RUN useradd -ms /bin/bash -G service booter\n" +
-                                "USER booter\n" +
-                                "WORKDIR /home/booter\n" +
-                                "RUN mkdir gen/\n" +
-                                "\n" +
-                                "# run app as user 'booter'\n" +
-                                "RUN bash -c 'touch /app.jar'\n" +
-                                "ENTRYPOINT [\"java\", \"-Xmx256m\", \"-Xss32m\", \"-Djava.security.egd=file:/dev/./urandom\",\"-jar\",\"/app.jar\"]"; 
     
     private final String propertiesTpl =    "# GLOBAL CONFIGURATION\n" +
                                             "spring:\n" +

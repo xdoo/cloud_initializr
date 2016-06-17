@@ -14,14 +14,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class DomainGeneratorService {
     
-    private ServiceGeneratorService serviceGen;
+    private final ServiceGeneratorService serviceGen;
+    private final RegistryGeneratorService registryGen;
 
     @Autowired
-    public DomainGeneratorService(ServiceGeneratorService serviceGen) {
+    public DomainGeneratorService(ServiceGeneratorService serviceGen, RegistryGeneratorService registryGen) {
         this.serviceGen = serviceGen;
+        this.registryGen = registryGen;
     }
     
     public void createDomain(Domain domain, FileSystem fs) {
+        
+        // create registry
+        this.registryGen.createRegistry(domain, fs);
         
         // create services
         List<MicroService> services = domain.getServices();
