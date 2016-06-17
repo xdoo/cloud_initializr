@@ -59,7 +59,10 @@
     Polymer({
       is: 'domain-download',
       properties: {
-        domain: Object
+        domain: {
+          type: Object,
+          notify: true
+        }
       },
       setajax: function () {
         this.$.ajax.generateRequest();

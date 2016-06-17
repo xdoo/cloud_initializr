@@ -119,13 +119,27 @@
           this.push('services', service);
           console.log('service ' + service.name + ' added...');
           this.servicename = '';
+
+          // add service into domain object
+          if(typeof this.domain.services == 'undefined') {
+            this.domain.services = [service];
+          } else {
+            this.domain.services.push(service);
+          }
+          console.log(JSON.stringify(this.domain));
         }
       },
 
       removeService: function(e) {
-        var index = this.services.indexOf(e.model.item);
-        this.splice('services', index, 1);
+        var index1 = this.services.indexOf(e.model.item);
+        this.splice('services', index1, 1);
         console.log('service ' + e.model.item.name + ' removed...');
+
+        // remove service from domain object
+        var index2 = this.domain.services.indexOf(e.model.item);
+        this.domain.services.splice(index2, 1);
+
+        console.log(JSON.stringify(this.domain));
       }
     });
   </script>
