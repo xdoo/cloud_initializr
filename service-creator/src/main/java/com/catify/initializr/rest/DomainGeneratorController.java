@@ -37,8 +37,8 @@ public class DomainGeneratorController {
     public Domain createSample() {
         LOG.log(Level.INFO, "request to create sample");
         Domain domain = new Domain("My-Domain", "com.my.domain");
-        domain.addService(new MicroService("service-a", "0.0.1-SNAPSHOT"));
-        domain.addService(new MicroService("service-b", "0.0.1-SNAPSHOT"));
+        domain.addService(new MicroService("service-a"));
+        domain.addService(new MicroService("service-b"));
         return domain;
     }
     

@@ -32,10 +32,10 @@ public class ServiceGeneratorService {
         
         // create maven project
         MicroService service = domain.getServices().get(index);
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) domain.getBasePath(),  service.getName());
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) domain.getPath(),  service.getName());
         
         // create pom
-        this.createServicePom(service, domain.getBasePath(), fs, paths);
+        this.createServicePom(service, domain.getPath(), fs, paths);
         
         // create docker file
         this.createServiceDockerFile(fs, paths);
@@ -49,7 +49,6 @@ public class ServiceGeneratorService {
         String pom = String.format(this.pomTpl,
                 basePath,
                 service.getName(),
-                service.getVersion(),
                 service.getName());
         try {
             Files.write(path, ImmutableList.of(pom), StandardCharsets.UTF_8);
@@ -85,7 +84,7 @@ public class ServiceGeneratorService {
                                 "\n" +
                                 "    <groupId>%s</groupId>\n" +
                                 "    <artifactId>%s</artifactId>\n" +
-                                "    <version>%s</version>\n" +
+                                "    <version>0.0.1-SNAPSHOT</version>\n" +
                                 "    <packaging>jar</packaging>\n" +
                                 "\n" +
                                 "    <name>%s</name>\n" +

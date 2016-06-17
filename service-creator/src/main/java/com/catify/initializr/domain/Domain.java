@@ -10,7 +10,7 @@ import java.util.List;
 public class Domain {
     
     private String name;
-    private String basePath;
+    private String path;
     private List<MicroService> services;
 
     public Domain() {
@@ -19,13 +19,13 @@ public class Domain {
     
     public Domain(final String name, final String basePath) {
         this.name = name;
-        this.basePath = basePath;
+        this.path = basePath;
         this.services = new ArrayList<>();
     }
 
-    public Domain(final String name, final String basePath, final List<MicroService> services) {
+    public Domain(final String name, final String path, final List<MicroService> services) {
         this.name = name;
-        this.basePath = basePath;
+        this.path = path;
         this.services = services;
     }
     
@@ -39,12 +39,12 @@ public class Domain {
         this.name = name;
     }
 
-    public String getBasePath() {
-        return basePath;
+    public String getPath() {
+        return path;
     }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public List<MicroService> getServices() {
