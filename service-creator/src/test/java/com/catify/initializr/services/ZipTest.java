@@ -43,7 +43,7 @@ public class ZipTest {
         ZipOutputStream emptyZip = new ZipOutputStream(baos1);
         emptyZip.close();
         Files.write(zipPath, baos1.toByteArray());
-
+        
         // create zip file system
         URI uri = URI.create("jar:" + zipPath.toUri());
         Map<String, String> env = new HashMap<>();
