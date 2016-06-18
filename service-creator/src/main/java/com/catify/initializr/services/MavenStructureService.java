@@ -61,7 +61,8 @@ public class MavenStructureService {
         Collection<Path> values = paths.values();
         values.stream().forEach((path) -> {
             try {
-                Files.createDirectories(path);
+            	// gitfs needs absolute paths
+                Files.createDirectories(path.toAbsolutePath());
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, null, ex);
             }
