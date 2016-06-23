@@ -29,7 +29,6 @@
         margin: 3px;
       }
 
-
       .flex-horizontal > iron-icon {
         margin-right: 5px;
       }
@@ -52,9 +51,10 @@
         @apply(--layout-end);
       }
 
-      button[is=paper-icon-button-light] {
-        width: 20px;
-        height: 20px;
+      .input-button {
+        width: 23px; /* 15px + 2*4px for padding */
+        height: 23px;
+        padding: 0px 4px;
       }
 
     </style>
@@ -63,10 +63,10 @@
         <paper-input label="domain name" value="{{domain.name}}"></paper-input>
         <paper-input label="domain base path" value="{{domain.path}}"></paper-input>
         <span class="flexchild"></span>
-          <paper-input label=" new service name" on-keypress="checkKey" value="{{servicename}}">
-            <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
-            <paper-icon-button icon="icons:add" title="add service" on-tap="addService" suffix></paper-icon-button>
-          </paper-input>
+        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}">
+          <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
+          <paper-icon-button icon="icons:add" title="add service" on-tap="addService" class="input-button" suffix></paper-icon-button>
+        </paper-input>
       </div>
       <div class="card-actions services flex-horizontal">
         <iron-icon icon="image:blur-on"></iron-icon>
