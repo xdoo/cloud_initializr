@@ -27,7 +27,7 @@ public class ServiceGeneratorService extends BaseServiceGeneratorService{
         Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) domain.getPath(),  service.getName());
         
         // create pom
-        this.createServicePom(paths, domain.getPath(), service);
+        this.createPom(paths, domain.getPath(), service);
         
         // create docker file
         this.docker.createServiceDockerFile(paths);

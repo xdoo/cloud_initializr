@@ -29,7 +29,7 @@ public class BaseServiceGeneratorService {
         this.applicationTemplate = new File(classLoader.getResource(String.format("templates/%s/application.tmpl", folder)).getFile());
     }
     
-    public void createServicePom(Map<String, Path> paths, Object... args) {
+    public void createPom(Map<String, Path> paths, Object... args) {
         Path path = paths.get(MavenStructureService.BASE).resolve("pom.xml");
         String pom = Rythm.render(this.pomTemplate, args);
         Util.writeToFile(pom, path);
