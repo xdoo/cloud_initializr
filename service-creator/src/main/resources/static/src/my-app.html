@@ -19,6 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
@@ -34,9 +36,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        background-color: var(--app-primary-color);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         color: #fff;
+        background-color: var(--paper-lime-900);
+        --app-header-background-front-layer: {
+          background-color: var(--paper-lime-900);
+        };
       }
+
+      app-toolbar.middle {
+        height: 120px;
+      }
+      app-toolbar.bottom {
+        height: 92px;
+      }
+
+      [title] {
+        margin-left: 64px;
+        font-size: 32px;
+        font-weight: 300;
+      }
+      [condensed-title] {
+        margin-left: 20px;
+        font-weight: 300;
+      }
+
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
@@ -86,10 +113,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <app-header condenses reveals effects="waterfall">
+        <app-header effects="waterfall resize-title blend-background parallax-background" condenses reveals>
           <app-toolbar>
-            <!-- <paper-icon-button icon="menu" drawer-toggle></paper-icon-button> -->
-            <div title>cloud initializr</div>
+            <div condensed-title>build your cloud</div>
+            <paper-icon-button icon="social:share"></paper-icon-button>
+          </app-toolbar>
+          <app-toolbar class="middle"></app-toolbar>
+          <app-toolbar class="bottom">
+            <div title>build your cloud</div>
           </app-toolbar>
         </app-header>
 
