@@ -1,7 +1,10 @@
 package com.catify.initializr.services;
 
+import com.catify.initializr.domain.Domain;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Map;
+import org.rythmengine.Rythm;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,12 +13,29 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DockerGeneratorService {
+    
+    private final File composeTemplate;
+
+    public DockerGeneratorService() {
+        
+        // import templates
+        ClassLoader classLoader = getClass().getClassLoader();
+        this.composeTemplate = new File(classLoader.getResource("templates/docker/dockercompose.tmpl").getFile());
+    }
 
     public void createServiceDockerFile(Map<String, Path> paths) {
         Path path = paths.get(MavenStructureService.MAIN_DOCKER).resolve("Dockerfile");
         Util.writeToFile(this.dockerTpl, path);
     }
+    
+    public void createDockerComposeFile(Path path, Domain domain) {
+        String compose = Rythm.render(this.composeTemplate, domain.getServices());
+        Util.writeToFile(compose, path.resolve("docker-compose.yml"));
+    }
 
+    /**
+     * nothing to replace - so we can simply use a string.
+     */
     private final String dockerTpl = "FROM java:8\n"
             + "\n"
             + "# environment\n"

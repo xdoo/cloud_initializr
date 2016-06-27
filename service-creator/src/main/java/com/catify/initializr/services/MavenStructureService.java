@@ -60,11 +60,7 @@ public class MavenStructureService {
     public void createDirectories(Map<String,Path> paths) {
         Collection<Path> values = paths.values();
         values.stream().forEach((path) -> {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException ex) {
-                LOG.log(Level.SEVERE, null, ex);
-            }
+            Util.createDirectory(path);
         });
     }    
 }

@@ -14,19 +14,21 @@ import java.util.logging.Logger;
  * @author claus
  */
 public class Util {
-    
+
+    private static final Logger LOG = Logger.getLogger(Util.class.getName());
+
     public static String cleanPackageName(String packageName) {
         return packageName.replaceAll("\\.", "/");
     }
-    
+
     public static String createServiceName(String name) {
         return name.replaceAll("-", "").replaceAll("_", "").replaceAll("\\.", "").toLowerCase();
     }
-    
+
     public static String createServiceId(String name) {
         return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name.replaceAll("-", "_"));
     }
-    
+
     public static void writeToFile(String content, Path path) {
         try {
             Files.write(path, ImmutableList.of(content), StandardCharsets.UTF_8);
@@ -34,5 +36,13 @@ public class Util {
             Logger.getLogger(ServiceGeneratorService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public static void createDirectory(Path path) {
+        try {
+            Files.createDirectories(path);
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
