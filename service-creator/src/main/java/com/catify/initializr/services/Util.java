@@ -19,7 +19,7 @@ public class Util {
         return packageName.replaceAll("\\.", "/");
     }
     
-    public static String cleanServiceName(String name) {
+    public static String createServiceName(String name) {
         return name.replaceAll("-", "").replaceAll("_", "").replaceAll("\\.", "").toLowerCase();
     }
     

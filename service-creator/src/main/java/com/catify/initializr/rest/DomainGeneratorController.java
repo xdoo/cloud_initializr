@@ -2,7 +2,7 @@ package com.catify.initializr.rest;
 
 import com.catify.initializr.domain.Domain;
 import com.catify.initializr.domain.MicroService;
-import com.catify.initializr.services.ZipService;
+import com.catify.initializr.services.ZipGeneratorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class DomainGeneratorController {
     
     private static final Logger LOG= Logger.getLogger( DomainGeneratorController.class.getName() );
     
-    private final ZipService zip;
+    private final ZipGeneratorService zip;
 
     @Autowired
-    public DomainGeneratorController(ZipService zip) {
+    public DomainGeneratorController(ZipGeneratorService zip) {
         this.zip = zip;
     }
     

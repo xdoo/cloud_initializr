@@ -26,12 +26,12 @@ public class ServiceGeneratorServiceTest {
     @Autowired
     private ServiceGeneratorService service;
     
-    @Test
-    public void testCreateDomain() throws IOException{
-        System.out.println("createDomain");
+//    @Test
+//    public void testCreateDomain() throws IOException{
+//        System.out.println("createDomain");
 //        Domain domain = new Domain("test", "com.foo.bar");
-//        domain.addService(new MicroService("Service-A", "0.0.1-SNAPSHOT"));
-//        domain.addService(new MicroService("Service-B", "0.0.1-SNAPSHOT"));
+//        domain.addService(new MicroService("Service-A"));
+//        domain.addService(new MicroService("Service-B"));
 //        Iterable<Path> root = this.service.createDomain(domain).getRootDirectories();
 //        for (Path path : root) {
 //            Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
@@ -51,5 +51,5 @@ public class ServiceGeneratorServiceTest {
 //                
 //            });
 //        }
-    }
+//    }
 }

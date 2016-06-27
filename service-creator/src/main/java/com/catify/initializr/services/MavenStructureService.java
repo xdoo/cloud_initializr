@@ -36,7 +36,7 @@ public class MavenStructureService {
         // paths
         Map<String,Path> paths = this.createMavenPaths(fs,
                 "/" + Util.cleanPackageName(domain), 
-                Util.cleanServiceName(name));
+                Util.createServiceName(name));
         
         // create directories
         this.createDirectories(paths);
