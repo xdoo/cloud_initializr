@@ -1,5 +1,6 @@
 package com.catify.initializr.services;
 
+import com.catify.initializr.domain.Domain;
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
 import java.io.IOException;
@@ -31,10 +32,11 @@ public class MavenStructureServiceTest {
         System.out.println("createEmptyMavenProject");
         MavenStructureService instance = new MavenStructureService();
         FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
-        Map<String,Path> result01 = instance.createEmptyMavenProject(fs, "com.foo.bar", "service-a");
+        Domain domain = new Domain("My-Domain", "com.foo.bar");
+        Map<String,Path> result01 = instance.createEmptyMavenProject(fs, domain , "service-a");
         assertNotNull(result01);
         
-        Map<String,Path> result02 = instance.createEmptyMavenProject(fs, "com.foo.bar", "service-b");
+        Map<String,Path> result02 = instance.createEmptyMavenProject(fs, domain, "service-b");
         assertNotNull(result02);
 
         Iterable<Path> root = fs.getRootDirectories();
@@ -60,7 +62,8 @@ public class MavenStructureServiceTest {
         System.out.println("createMavenPaths");
         FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
         MavenStructureService instance = new MavenStructureService();
-        Map<String,Path> result = instance.createMavenPaths(fs, "com.foo.bar", "service-a");
+        Domain domain = new Domain("My-Domain", "com.foo.bar");
+        Map<String,Path> result = instance.createMavenPaths(fs, domain, "service-a");
         assertEquals(6, result.size());
         assertTrue(result.containsKey(MavenStructureService.MAIN_DOCKER));
         assertTrue(result.containsKey(MavenStructureService.MAIN_JAVA));

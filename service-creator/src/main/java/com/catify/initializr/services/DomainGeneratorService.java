@@ -59,6 +59,7 @@ public class DomainGeneratorService {
         Path docker = base.resolve("/" + Util.createServiceName(domain.getName()) + "/docker");
         Util.createDirectory(docker);
         this.dockerGen.createDockerComposeFile(docker, domain);
+        this.dockerGen.createCleanScript(docker, domain);
         
         // create aggregate pom
         String pom = Rythm.render(this.pomTemplate, Util.createServiceName(domain.getName()), domain.getPath(), domain.getServices());

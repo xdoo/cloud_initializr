@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 public class DockerGeneratorService {
     
     private final File composeTemplate;
+    private final File cleanTemplate;
 
     public DockerGeneratorService() {
         
         // import templates
         ClassLoader classLoader = getClass().getClassLoader();
         this.composeTemplate = new File(classLoader.getResource("templates/docker/dockercompose.tmpl").getFile());
+        this.cleanTemplate = new File(classLoader.getResource("templates/docker/clean.tmpl").getFile());
     }
 
     public void createServiceDockerFile(Map<String, Path> paths) {
@@ -31,6 +33,11 @@ public class DockerGeneratorService {
     public void createDockerComposeFile(Path path, Domain domain) {
         String compose = Rythm.render(this.composeTemplate, domain.getServices());
         Util.writeToFile(compose, path.resolve("docker-compose.yml"));
+    }
+    
+    public void createCleanScript(Path path, Domain domain) {
+        String clean = Rythm.render(this.cleanTemplate, domain.getServices());
+        Util.writeToFile(clean, path.resolve("clean.sh"));
     }
 
     /**
