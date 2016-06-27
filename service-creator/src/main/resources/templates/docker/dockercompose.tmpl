@@ -5,7 +5,7 @@
 # --------------
 service-registry:
     hostname: discovery
-    build: ../demo-registry/target
+    build: ../registry/target
     ports:
         - "8761:8080"
     environment:
@@ -16,7 +16,7 @@ service-registry:
 # --------------
 zuul-proxy:
     hostname: zuul
-    build: ../demo-proxy/target
+    build: ../proxy/target
     ports:
         - "8080:8080"
     links:
