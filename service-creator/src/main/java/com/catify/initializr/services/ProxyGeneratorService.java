@@ -22,7 +22,7 @@ public class ProxyGeneratorService extends BaseServiceGeneratorService {
     
     public void createProxy(FileSystem fs, Domain domain) {
         // create maven project
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain.getPath(), "proxy");
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain, "proxy");
 
         // create pom
         this.createPom(paths, domain.getPath());

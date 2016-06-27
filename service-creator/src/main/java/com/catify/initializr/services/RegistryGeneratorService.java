@@ -22,7 +22,7 @@ public class RegistryGeneratorService extends BaseServiceGeneratorService {
 
     public void createRegistry(Domain domain, FileSystem fs) {
         // create maven project
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain.getPath(), "registry");
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain, "registry");
 
         // create pom
         this.createPom(paths, domain.getPath());

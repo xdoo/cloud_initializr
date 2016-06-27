@@ -1,13 +1,11 @@
 package com.catify.initializr.services;
 
-import java.io.IOException;
+import com.catify.initializr.domain.Domain;
 import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +29,11 @@ public class MavenStructureService {
     public static final String TEST_RESOURCES = "test_resources";
     
     
-    public Map<String,Path> createEmptyMavenProject(FileSystem fs, String domain, String name) {
+    public Map<String,Path> createEmptyMavenProject(FileSystem fs, Domain domain, String name) {
         
         // paths
         Map<String,Path> paths = this.createMavenPaths(fs,
-                "/" + Util.cleanPackageName(domain), 
+                domain, 
                 Util.createServiceName(name));
         
         // create directories
@@ -44,15 +42,18 @@ public class MavenStructureService {
         return paths;
     }
     
-    public Map<String,Path> createMavenPaths(FileSystem fs, String domain, String name) {
+    public Map<String,Path> createMavenPaths(FileSystem fs, Domain domain, String name) {
         Map<String,Path> paths = new HashMap<>();
         
-        paths.put(BASE, fs.getPath(name));
-        paths.put(MAIN_JAVA, fs.getPath(name + "/" + main + "/java" + domain + "/" + name));
-        paths.put(MAIN_RESOURCES, fs.getPath(name + "/" + main + "/resources"));
-        paths.put(MAIN_DOCKER, fs.getPath(name + "/" + main + "/docker"));
-        paths.put(TEST_JAVA, fs.getPath(name + "/" + test + "/java" + domain + "/" + name));
-        paths.put(TEST_RESOURCES, fs.getPath(name + "/" + test + "/resources"));
+        String domainPath = "/" + Util.cleanPackageName(domain.getPath());
+        String basePath = String.format("/%s/%s", Util.createServiceName(domain.getName()), name);
+        
+        paths.put(BASE, fs.getPath(basePath));
+        paths.put(MAIN_JAVA, fs.getPath(basePath + "/" + main + "/java" + domainPath + "/" + name));
+        paths.put(MAIN_RESOURCES, fs.getPath(basePath + "/" + main + "/resources"));
+        paths.put(MAIN_DOCKER, fs.getPath(basePath + "/" + main + "/docker"));
+        paths.put(TEST_JAVA, fs.getPath(basePath + "/" + test + "/java" + domainPath + "/" + name));
+        paths.put(TEST_RESOURCES, fs.getPath(basePath + "/" + test + "/resources"));
         
         return paths;
     }

@@ -24,7 +24,7 @@ public class ServiceGeneratorService extends BaseServiceGeneratorService{
         
         // create maven project
         MicroService service = domain.getServices().get(index);
-        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, (String) domain.getPath(),  service.getName());
+        Map<String, Path> paths = this.mvn.createEmptyMavenProject(fs, domain,  service.getName());
         
         // create pom
         this.createPom(paths, domain.getPath(), service);
