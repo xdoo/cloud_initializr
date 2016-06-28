@@ -19,7 +19,7 @@ zuul:
 @for(com.catify.initializr.domain.MicroService service : services) {
     # routes for service '@service.getServiceName()'
     @service.getServiceName():
-      path: /**
+      path: /@service.getServiceName()/**
       serviceId: @service.getServiceId()
 }
 
