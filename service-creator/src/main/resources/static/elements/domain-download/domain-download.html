@@ -13,6 +13,7 @@
       :host {
         display: block;
         padding: 16px;
+
       }
       paper-button.custom {
         --paper-button-ink-color: var(--paper-pink-a200);
@@ -50,8 +51,11 @@
     raised
     on-tap="setajax"
     class="custom green">
-    <iron-icon icon="cloud-download"></iron-icon>&nbsp;build your cloud now
+    <iron-icon icon="image:wb-cloudy" style="padding-right: 10px"></iron-icon>build your cloud now
   </paper-button>
+  <paper-toast id="toast1" text="You should give your domain a name like 'My Domain'."></paper-toast>
+  <paper-toast id="toast2" text="You should give your domain a base path like 'com.example'."></paper-toast>
+  <paper-toast id="toast3" text="At least one service would be useful. :)"></paper-toast>
   </template>
 
   <!-- Creates the element's prototype and registers it -->
@@ -65,7 +69,28 @@
         }
       },
       setajax: function () {
-        this.$.ajax.generateRequest();
+        if(this.checkPayload()) {
+            this.$.ajax.generateRequest();
+        }
+      },
+      checkPayload: function() {
+
+        if(typeof this.domain.name == 'undefined' || this.domain.name == '') {
+          this.$.toast1.open();
+          return false;
+        }
+
+        if(typeof this.domain.path == 'undefined' || this.domain.path == '') {
+          this.$.toast2.open();
+          return false;
+        }
+
+        if(typeof this.domain.services == 'undefined' || this.domain.services.length < 1) {
+          this.$.toast3.open();
+          return false;
+        }
+
+        return true;
       },
       handleResponse: function(request) {
         var blob = request.detail.response;

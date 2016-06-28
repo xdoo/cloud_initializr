@@ -2,18 +2,19 @@
 <link rel="import" href="../domain-service-card/domain-service-card.html">
 <link rel="import" href="../domain-download/domain-download.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="domain-domain">
 
@@ -60,12 +61,12 @@
     </style>
     <paper-card heading="{{domain.name}}" image="../../images/card_bgr.png" class="white">
       <div class="card-content flex-horizontal">
-        <paper-input label="domain name" value="{{domain.name}}"></paper-input>
-        <paper-input label="domain base path" value="{{domain.path}}"></paper-input>
+        <paper-input label="domain name" value="{{domain.name}}" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30"></paper-input>
+        <paper-input label="domain base path" value="{{domain.path}}" auto-validate allowed-pattern="[a-z\.]" maxlength="60"></paper-input>
         <span class="flexchild"></span>
-        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}">
+        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30">
           <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
-          <paper-icon-button icon="icons:add" title="add service" on-tap="addService" class="input-button" suffix></paper-icon-button>
+          <paper-icon-button icon="image:control-point" title="add service" on-tap="addService" class="input-button" suffix></paper-icon-button>
         </paper-input>
       </div>
       <div class="card-actions services flex-horizontal">
@@ -89,6 +90,9 @@
         <domain-download domain="{{domain}}"></domain-download>
       </div>
     </paper-card>
+    <paper-toast id="toast1" text="We've already a service called 'regsitry'."></paper-toast>
+    <paper-toast id="toast2" text="We've already a service called 'proxy'."></paper-toast>
+    <paper-toast id="toast3" text="30 services should be enough for a free app, right? :)"></paper-toast>
 <!--
     <p class="footer">
       Coded with <iron-icon icon="icons:favorite"></iron-icon> in Munich.
@@ -134,11 +138,38 @@
         console.log(JSON.stringify(this.domain));
       },
 
+      checkService: function(name) {
+        // name must not equal to 'registry'
+        if(name == 'registry') {
+          this.$.toast1.open();
+          return false;
+        }
+
+        // name must not equal to 'proxy'
+        if(name == 'proxy') {
+          this.$.toast2.open();
+          return false;
+        }
+
+        // 30 services are enough
+        if(!(typeof this.domain.services == 'undefined') && !(this.domain.services.length < 31)) {
+          this.$.toast3.open();
+          return false;
+        }
+
+        return true;
+
+      },
+
       checkKey: function(e) {
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if( key === 13) {
           console.log("pressed enter");
-          this.addService();
+          if(this.checkService(this.servicename)) {
+            this.addService();
+          } else {
+            this.servicename = '';
+          }
         }
       },
 
