@@ -1,15 +1,15 @@
 @args List<com.catify.initializr.domain.MicroService> services
 
 echo "removing containers"
-docker rm docker_service-registry_1
-docker rm docker_zuul-proxy_1
+docker rm docker_discovery_1
+docker rm docker_zuul_1
 @for(com.catify.initializr.domain.MicroService service : services) {
 docker rm docker_@service.getServiceName()_1
 }
 
 echo "removing images"
-docker rmi docker_service-registry
-docker rmi docker_zuul-proxy
+docker rmi docker_discovery
+docker rmi docker_zuul
 @for(com.catify.initializr.domain.MicroService service : services) {
 docker rmi docker_@service.getServiceName()
 }
