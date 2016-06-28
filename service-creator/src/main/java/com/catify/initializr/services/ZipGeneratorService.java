@@ -23,14 +23,14 @@ import org.springframework.stereotype.Service;
  * @author claus
  */
 @Service
-public class ZipService {
+public class ZipGeneratorService {
 
     private static final Logger LOG= Logger.getLogger( MavenStructureService.class.getName() );
     
     private DomainGeneratorService domainGen;
 
     @Autowired
-    public ZipService(DomainGeneratorService domainGen) {
+    public ZipGeneratorService(DomainGeneratorService domainGen) {
         this.domainGen = domainGen;
     }
     

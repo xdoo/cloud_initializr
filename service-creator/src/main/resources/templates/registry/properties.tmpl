@@ -1,0 +1,40 @@
+# GLOBAL CONFIGURATION
+spring:
+    # if you want to set a different profile
+    # use environment variable:
+    #
+    # SPRING_PROFILES_ACTIVE=docker
+    profiles.active: local
+    cloud.config.discovery.enabled: true
+    application.name: discovery
+
+# don't register with your self
+eureka.client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+  
+---
+# LOCAL CONFIGURATION
+spring:
+  profiles: local
+eureka:
+  instance:
+    hostname: localhost
+endpoints:
+  health:
+    sensitive: false
+
+# use always the standard server port
+server.port: 8761
+
+---
+# DOCKER CONFIGURATION
+spring:
+  profiles: docker
+eureka:
+  instance:
+    hostname: discovery
+    
+# server port will be mapped with docker
+server.port: 8761

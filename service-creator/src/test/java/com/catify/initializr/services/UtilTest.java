@@ -27,9 +27,9 @@ public class UtilTest {
      * Test of cleanServiceName method, of class Util.
      */
     @Test
-    public void testCleanServiceName() {
+    public void testCreateServiceName() {
         System.out.println("cleanServiceName");
-        String result = Util.cleanServiceName("foo-bar.fuu_bor");
+        String result = Util.createServiceName("foo-bar.fuu_bor");
         assertEquals("foobarfuubor", result);
     }
 

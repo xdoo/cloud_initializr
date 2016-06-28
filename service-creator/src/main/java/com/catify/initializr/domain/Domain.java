@@ -2,6 +2,9 @@ package com.catify.initializr.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -9,8 +12,13 @@ import java.util.List;
  */
 public class Domain {
     
+    @NotNull @Pattern(regexp = "([A-Za-z]*\\.?\\-?\\_?[[:blank:]]?)*")
     private String name;
+    
+    @NotNull @Pattern(regexp = "([a-z]*\\.?)*")
     private String path;
+    
+    @Size(min = 1, max = 30)
     private List<MicroService> services;
 
     public Domain() {

@@ -1,0 +1,41 @@
+@args List<com.catify.initializr.domain.MicroService> services
+
+version: '2'
+
+services:
+  # --------------
+  # registry
+  # --------------
+  discovery:
+    build: ../registry/target
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # --------------
+  # zuul proxy
+  # --------------
+  zuul:
+    build: ../proxy/target
+    ports:
+      - "80:8080"
+    links:
+      - discovery
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+@for(com.catify.initializr.domain.MicroService service : services) {        
+  # --------------
+  # @service.getName()
+  # --------------
+  @service.getServiceName():
+    build: ../@service.getServiceName()/target
+    ports:
+      - "8080"
+    links:
+      - discovery
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+}
