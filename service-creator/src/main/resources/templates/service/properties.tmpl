@@ -1,0 +1,48 @@
+@args com.catify.initializr.domain.MicroService service
+
+# GLOBAL CONFIGURATION
+spring:
+    # if you want to set a different profile
+    # use environment variable:
+    #
+    # SPRING_PROFILES_ACTIVE=docker
+    profiles.active: local
+    application.name: @service.getServiceId()
+        
+
+eureka.instance:
+    # send ip addresses to the discovery. this is
+    # important for client side load balancing
+    preferIpAddress: true
+    # push this service all 10 seconds to the registry
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap.instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+
+---
+# DOCKER CONFIGURATION
+spring:
+    profiles: docker
+
+# inside a container, we can always map to 8080. Use your compose
+# file to expose a service on a different port.
+server.port: 8080
+
+# the hostname of your eureka server should be 'discovery'.
+eureka.client.serviceUrl.defaultZone: http://discovery:8761/eureka/
+
+---
+# LOCAL CONFIGURATION
+spring:
+    profiles: local
+    
+# random server port to avoid port 
+# conflicts on localhost
+server.port: 0
+
+eureka.client:
+    # in local mode you have to run your service 
+    # discovery on localhost (you also can run the 
+    # cloud infrastructure on your local docker host)
+    serviceUrl.defaultZone: http://localhost:8761/eureka/
+    # fetch all 5 seconds the delta from the service registry
+    registry-fetch-interval-seconds: 5

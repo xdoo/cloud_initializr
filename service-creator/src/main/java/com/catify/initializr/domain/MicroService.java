@@ -1,5 +1,7 @@
 package com.catify.initializr.domain;
 
+import com.catify.initializr.services.Util;
+
 /**
  *
  * @author claus
@@ -21,6 +23,14 @@ public class MicroService {
 
     public void setName(String name) {
         this.name = name;
-    }    
+    } 
+    
+    public String getServiceId() {
+        return Util.createServiceId(this.name);
+    }
+    
+    public String getServiceName() {
+        return Util.createServiceName(this.name);
+    }
     
 }
