@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class MicroService {
     
-    @NotNull @Pattern(regexp = "([A-Za-z]*\\.?\\-?\\_?[[:blank:]]?)*")
+    @NotNull @Pattern(regexp = "([A-Za-z]*\\.?\\-?\\_? ?)*")
     private String name;
 
     public MicroService(String name) {

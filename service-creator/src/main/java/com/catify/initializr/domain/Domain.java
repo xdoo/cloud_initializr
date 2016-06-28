@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  */
 public class Domain {
     
-    @NotNull @Pattern(regexp = "([A-Za-z]*\\.?\\-?\\_?[[:blank:]]?)*")
+    @NotNull @Pattern(regexp = "([A-Za-z]*\\.?\\-?\\_? ?)*")
     private String name;
     
     @NotNull @Pattern(regexp = "([a-z]*\\.?)*")
