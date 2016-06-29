@@ -1,1 +1,86 @@
-var async=require("../lib/async"),expect=require("chai").expect;describe("compose",function(){context("all functions succeed",function(){it("yields the result of the composition of the functions",function(t){var n=function(t,n){setTimeout(function(){n(null,t+2)})},e=function(t,n){setTimeout(function(){n(null,3*t)})},o=function(t,n){setTimeout(function(){n(null,t+1)})},c=async.compose(o,e,n);c(3,function(n,e){expect(n).to.not.exist,expect(e).to.eql(16),t()})})}),context("a function errors",function(){it("yields the error and does not call later functions",function(t){var n=!1,e=new Error("mul3 error"),o=function(t,n){setTimeout(function(){n(null,t+2)})},c=function(t,n){setTimeout(function(){n(e)})},i=function(t,e){n=!0,setTimeout(function(){e(null,t+1)})},u=async.compose(i,c,o);u(3,function(o,c){expect(o).to.eql(e),expect(c).to.not.exist,expect(n).to.be["false"],t()})})}),it("calls each function with the binding of the composed function",function(t){var n={},e=null,o=null,c=function(t,n){e=this,setTimeout(function(){n(null,t+2)})},i=function(t,n){o=this,setTimeout(function(){n(null,3*t)})},u=async.compose(i,c);u.call(n,3,function(c,i){expect(c).to.not.exist,expect(i).to.eql(15),expect(e).to.equal(n),expect(o).to.equal(n),t()})})});
+var async = require('../lib/async');
+var expect = require('chai').expect;
+
+describe('compose', function(){
+    context('all functions succeed', function(){
+        it('yields the result of the composition of the functions', function(done){
+            var add2 = function (n, cb) {
+                setTimeout(function () {
+                    cb(null, n + 2);
+                });
+            };
+            var mul3 = function (n, cb) {
+                setTimeout(function () {
+                    cb(null, n * 3);
+                });
+            };
+            var add1 = function (n, cb) {
+                setTimeout(function () {
+                    cb(null, n + 1);
+                });
+            };
+            var add2mul3add1 = async.compose(add1, mul3, add2);
+            add2mul3add1(3, function (err, result) {
+                expect(err).to.not.exist;
+                expect(result).to.eql(16);
+                done();
+            });
+        });
+    });
+
+    context('a function errors', function(){
+        it('yields the error and does not call later functions', function(done){
+            var add1called = false;
+            var mul3error = new Error('mul3 error');
+            var add2 = function (n, cb) {
+                setTimeout(function () {
+                    cb(null, n + 2);
+                });
+            };
+            var mul3 = function (n, cb) {
+                setTimeout(function () {
+                    cb(mul3error);
+                });
+            };
+            var add1 = function (n, cb) {
+                add1called = true;
+                setTimeout(function () {
+                    cb(null, n + 1);
+                });
+            };
+            var add2mul3add1 = async.compose(add1, mul3, add2);
+            add2mul3add1(3, function (err, result) {
+                expect(err).to.eql(mul3error);
+                expect(result).to.not.exist;
+                expect(add1called).to.be.false;
+                done();
+            });
+        });
+    });
+
+    it('calls each function with the binding of the composed function', function(done){
+        var context = {};
+        var add2Context = null;
+        var mul3Context = null;
+        var add2 = function (n, cb) {
+            add2Context = this;
+            setTimeout(function () {
+                cb(null, n + 2);
+            });
+        };
+        var mul3 = function (n, cb) {
+            mul3Context = this;
+            setTimeout(function () {
+                cb(null, n * 3);
+            });
+        };
+        var add2mul3 = async.compose(mul3, add2);
+        add2mul3.call(context, 3, function (err, result) {
+            expect(err).to.not.exist;
+            expect(result).to.eql(15);
+            expect(add2Context).to.equal(context);
+            expect(mul3Context).to.equal(context);
+            done();
+        });
+    });
+});

@@ -1,7 +1,18 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+<head>
   <meta charset="UTF-8">
   <title>iron-checked-element-behavior basic tests</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -22,7 +33,7 @@
 
   <test-fixture id="checked">
     <template>
-      <simple-checkbox checked=""></simple-checkbox>
+      <simple-checkbox checked></simple-checkbox>
     </template>
   </test-fixture>
 
@@ -32,8 +43,110 @@
     </template>
   </test-fixture>
 
-  <script>suite("basic",function(){test("can be checked",function(){var e=fixture("basic");assert.isFalse(e.checked),e.checked=!0,assert.isTrue(e.checked)}),test("can be unchecked",function(){var e=fixture("checked");assert.isTrue(e.checked),e.checked=!1,assert.isFalse(e.checked)}),test("invalid if required and not checked",function(){var e=fixture("basic");e.required=!0,assert.isFalse(e.checked),assert.isFalse(e.validate()),assert.isTrue(e.invalid)}),test("valid if required and checked",function(){var e=fixture("basic");e.required=!0,e.checked=!0,assert.isTrue(e.checked),assert.isTrue(e.validate()),assert.isFalse(e.invalid)}),test("valid if not required and not checked",function(){var e=fixture("basic");assert.isFalse(e.checked),assert.isTrue(e.validate()),assert.isFalse(e.invalid)}),test('has a default value of "on", always',function(){var e=fixture("basic");assert.isTrue("on"===e.value),e.checked=!0,assert.isTrue("on"===e.value)}),test("does not stomp over user defined value when checked",function(){var e=fixture("with-value");assert.isTrue("batman"===e.value),e.checked=!0,assert.isTrue("batman"===e.value)}),test('value returns "on" when no explicit value is specified',function(){var e=fixture("basic");assert.equal(e.value,"on",'returns "on"')}),test("value returns the value when an explicit value is set",function(){var e=fixture("basic");e.value="abc",assert.equal(e.value,"abc",'returns "abc"'),e.value="123",assert.equal(e.value,"123",'returns "123"')}),test('value returns "on" when value is set to undefined',function(){var e=fixture("basic");e.value="abc",assert.equal(e.value,"abc",'returns "abc"'),e.value=void 0,assert.equal(e.value,"on",'returns "on"')})}),suite("a11y",function(){test("setting `required` sets `aria-required=true`",function(){var e=fixture("basic");e.required=!0,assert.equal(e.getAttribute("aria-required"),"true"),e.required=!1,assert.isFalse(e.hasAttribute("aria-required"))}),test("setting `invalid` sets `aria-invalid=true`",function(){var e=fixture("basic");e.invalid=!0,assert.equal(e.getAttribute("aria-invalid"),"true"),e.invalid=!1,assert.isFalse(e.hasAttribute("aria-invalid"))})});</script>
+  <script>
 
+    suite('basic', function() {
+      test('can be checked', function() {
+        var c = fixture('basic');
+        assert.isFalse(c.checked);
+        c.checked = true;
+        assert.isTrue(c.checked);
+      });
 
+      test('can be unchecked', function() {
+        var c = fixture('checked');
+        assert.isTrue(c.checked);
+        c.checked = false;
+        assert.isFalse(c.checked);
+      });
 
-</body></html>
+      test('invalid if required and not checked', function() {
+        var c = fixture('basic');
+        c.required = true;
+        assert.isFalse(c.checked);
+        assert.isFalse(c.validate());
+        assert.isTrue(c.invalid);
+      });
+
+      test('valid if required and checked', function() {
+        var c = fixture('basic');
+        c.required = true;
+        c.checked = true;
+        assert.isTrue(c.checked);
+        assert.isTrue(c.validate());
+        assert.isFalse(c.invalid);
+      });
+
+      test('valid if not required and not checked', function() {
+        var c = fixture('basic');
+        assert.isFalse(c.checked);
+        assert.isTrue(c.validate());
+        assert.isFalse(c.invalid);
+      });
+
+      test('has a default value of "on", always', function() {
+        var c = fixture('basic');
+
+        assert.isTrue(c.value === 'on');
+
+        c.checked = true;
+        assert.isTrue(c.value === 'on');
+      });
+
+      test('does not stomp over user defined value when checked', function() {
+        var c = fixture('with-value');
+        assert.isTrue(c.value === 'batman');
+
+        c.checked = true;
+        assert.isTrue(c.value === 'batman');
+      });
+
+      test('value returns "on" when no explicit value is specified', function() {
+        var c = fixture('basic');
+
+        assert.equal(c.value, 'on', 'returns "on"');
+      });
+
+      test('value returns the value when an explicit value is set', function() {
+        var c = fixture('basic');
+
+        c.value = 'abc';
+        assert.equal(c.value, 'abc', 'returns "abc"');
+
+        c.value = '123';
+        assert.equal(c.value, '123', 'returns "123"');
+      });
+
+      test('value returns "on" when value is set to undefined', function() {
+        var c = fixture('basic');
+
+        c.value = 'abc';
+        assert.equal(c.value, 'abc', 'returns "abc"');
+
+        c.value = undefined;
+        assert.equal(c.value, 'on', 'returns "on"');
+      });
+    });
+
+    suite('a11y', function() {
+      test('setting `required` sets `aria-required=true`', function() {
+        var c = fixture('basic');
+        c.required = true;
+        assert.equal(c.getAttribute('aria-required'), 'true');
+        c.required = false;
+        assert.isFalse(c.hasAttribute('aria-required'));
+      });
+
+      test('setting `invalid` sets `aria-invalid=true`', function() {
+        var c = fixture('basic');
+        c.invalid = true;
+        assert.equal(c.getAttribute('aria-invalid'), 'true');
+        c.invalid = false;
+        assert.isFalse(c.hasAttribute('aria-invalid'));
+      });
+    });
+
+  </script>
+
+</body>
+</html>

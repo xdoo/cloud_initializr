@@ -1,4 +1,16 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+<head>
   <title>paper-radio-button-behavior</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
@@ -18,8 +30,29 @@
     </template>
   </test-fixture>
 
-  <script>suite("basic",function(){var s;setup(function(){s=fixture("basic"),MockInteractions.blur(s)}),test("normal (no states)",function(){assert.isFalse(s.focused),assert.isFalse(s.hasRipple())}),test("receives focus",function(){MockInteractions.focus(s),assert.isTrue(s.focused),assert.isTrue(s.hasRipple())})});</script>
+  <script>
+    suite('basic', function() {
+      var button;
 
+      setup(function() {
+        button = fixture('basic');
+        MockInteractions.blur(button);
+      });
 
+      test('normal (no states)', function() {
+        assert.isFalse(button.focused);
+        assert.isFalse(button.hasRipple());
+      });
 
-</body></html>
+      test('receives focus', function() {
+        MockInteractions.focus(button);
+
+        assert.isTrue(button.focused);
+        assert.isTrue(button.hasRipple());
+      });
+
+    });
+  </script>
+
+</body>
+</html>

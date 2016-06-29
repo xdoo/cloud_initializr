@@ -1,1 +1,41 @@
-var version=require("./package.json").version,ts=(new Date).getTime();module.exports=function(e){var s;try{s=require("./test/auth/index")}catch(r){s={},s.SAUCE_USERNAME=process.env.SAUCE_USERNAME||null,s.SAUCE_ACCESS_KEY=process.env.SAUCE_ACCESS_KEY||null}if(s.SAUCE_USERNAME&&s.SAUCE_ACCESS_KEY&&!process.env.SKIP_SAUCE){var E=process.env.TRAVIS_BRANCH||"local",S=require("./sauce.browsers"),n=Object.keys(S),t=["chaijs_"+version,s.SAUCE_USERNAME+"@"+E],a=process.env.TRAVIS_JOB_NUMBER||ts;process.env.TRAVIS_JOB_NUMBER&&t.push("travis@"+process.env.TRAVIS_JOB_NUMBER),e.browsers=e.browsers.concat(n),e.customLaunchers=S,e.reporters.push("saucelabs"),e.transports=["xhr-polling"],e.sauceLabs={username:s.SAUCE_USERNAME,accessKey:s.SAUCE_ACCESS_KEY,startConnect:!0,tags:t,testName:"ChaiJS",tunnelIdentifier:a}}};
+var version = require('./package.json').version;
+var ts = new Date().getTime();
+
+module.exports = function(config) {
+  var auth;
+
+  try {
+    auth = require('./test/auth/index');
+  } catch(ex) {
+    auth = {};
+    auth.SAUCE_USERNAME = process.env.SAUCE_USERNAME || null;
+    auth.SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY || null;
+  }
+
+  if (!auth.SAUCE_USERNAME || !auth.SAUCE_ACCESS_KEY) return;
+  if (process.env.SKIP_SAUCE) return;
+
+  var branch = process.env.TRAVIS_BRANCH || 'local'
+  var browserConfig = require('./sauce.browsers');
+  var browsers = Object.keys(browserConfig);
+  var tags = [ 'chaijs_' + version, auth.SAUCE_USERNAME + '@' + branch ];
+  var tunnel = process.env.TRAVIS_JOB_NUMBER || ts;
+
+  if (process.env.TRAVIS_JOB_NUMBER) {
+    tags.push('travis@' + process.env.TRAVIS_JOB_NUMBER);
+  }
+
+  config.browsers = config.browsers.concat(browsers);
+  config.customLaunchers = browserConfig;
+  config.reporters.push('saucelabs');
+  config.transports = [ 'xhr-polling' ];
+
+  config.sauceLabs = {
+      username: auth.SAUCE_USERNAME
+    , accessKey: auth.SAUCE_ACCESS_KEY
+    , startConnect: true
+    , tags: tags
+    , testName: 'ChaiJS'
+    , tunnelIdentifier: tunnel
+  };
+};

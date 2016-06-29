@@ -1,8 +1,20 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+<head>
 
   <title>iron-iconset-svg</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -40,8 +52,94 @@
     </template>
   </test-fixture>
 
-  <script>suite("<iron-iconset>",function(){suite("basic behavior",function(){var e,t,i;setup(function(){i=new Promise(function(t){window.addEventListener("iron-iconset-added",function(i){i&&i.detail===e&&t()})});var n=fixture("TrivialIconsetSvg");e=n[0],t=n[1]}),test("it can be accessed via iron-meta",function(){expect(t.byKey("foo")).to.be.equal(e)}),test("it does not have a size",function(){var t=e.getBoundingClientRect();expect(t.width).to.be.equal(0),expect(t.height).to.be.equal(0)}),test("it fires an iron-iconset-added event on the window",function(){return i})}),suite("when paired with a size and SVG definition",function(){var e,t;setup(function(){var i=fixture("StandardIconsetSvg");e=i[0],t=i[1]}),test("it does not have a size",function(){var t=e.getBoundingClientRect();expect(t.width).to.be.equal(0),expect(t.height).to.be.equal(0)}),test("appends a child to the target element",function(){expect(t.firstElementChild).to.not.be.ok,e.applyIcon(t,"circle"),expect(t.firstElementChild).to.be.ok}),test("can be queried for all available icons",function(){expect(e.getIconNames()).to.deep.eql(["my-icons:circle","my-icons:square","my-icons:rect"])}),test("supports any icon defined in the svg",function(){var i;e.getIconNames().forEach(function(n){e.applyIcon(t,n.split(":").pop()),expect(t.firstElementChild).to.not.be.equal(i),i=t.firstElementChild})}),test("prefers a viewBox attribute over the iconset size",function(){e.applyIcon(t,"rect"),expect(t.firstElementChild.getAttribute("viewBox")).to.be.equal("0 0 50 25")}),test("uses the iconset size when viewBox is not defined on the element",function(){e.applyIcon(t,"circle"),expect(t.firstElementChild.getAttribute("viewBox")).to.be.equal("0 0 20 20")})})});</script>
+  <script>
 
+    suite('<iron-iconset>', function () {
 
+      suite('basic behavior', function () {
+        var iconset;
+        var meta;
+        var loadedPromise;
 
-</body></html>
+        setup(function () {
+          loadedPromise = new Promise(function(resolve) {
+            window.addEventListener('iron-iconset-added', function(ev) {
+              if (ev && ev.detail === iconset) {
+                resolve();
+              }
+            });
+          });
+          var elements = fixture('TrivialIconsetSvg');
+          iconset = elements[0];
+          meta = elements[1];
+        });
+
+        test('it can be accessed via iron-meta', function () {
+          expect(meta.byKey('foo')).to.be.equal(iconset);
+        });
+
+        test('it does not have a size', function () {
+          var rect = iconset.getBoundingClientRect();
+          expect(rect.width).to.be.equal(0);
+          expect(rect.height).to.be.equal(0);
+        });
+
+        test('it fires an iron-iconset-added event on the window', function() {
+          return loadedPromise;
+        });
+      });
+
+      suite('when paired with a size and SVG definition', function () {
+        var iconset;
+        var div;
+
+        setup(function () {
+          var elements = fixture('StandardIconsetSvg');
+          iconset = elements[0];
+          div = elements[1];
+        });
+
+        test('it does not have a size', function () {
+          var rect = iconset.getBoundingClientRect();
+          expect(rect.width).to.be.equal(0);
+          expect(rect.height).to.be.equal(0);
+        });
+        
+        test('appends a child to the target element', function () {
+          expect(div.firstElementChild).to.not.be.ok;
+          iconset.applyIcon(div, 'circle');
+          expect(div.firstElementChild).to.be.ok;
+        });
+
+        test('can be queried for all available icons', function () {
+          expect(iconset.getIconNames()).to.deep.eql(['my-icons:circle', 'my-icons:square', 'my-icons:rect']);
+        });
+
+        test('supports any icon defined in the svg', function () {
+          var lastSvgIcon;
+
+          iconset.getIconNames().forEach(function (iconName) {
+            iconset.applyIcon(div, iconName.split(':').pop());
+            expect(div.firstElementChild).to.not.be.equal(lastSvgIcon);
+            lastSvgIcon = div.firstElementChild;
+          });
+        });
+
+        test('prefers a viewBox attribute over the iconset size', function () {
+          iconset.applyIcon(div, 'rect');
+          expect(div.firstElementChild.getAttribute('viewBox')).to.be.equal('0 0 50 25');
+        });
+
+        test('uses the iconset size when viewBox is not defined on the element', function () {
+          iconset.applyIcon(div, 'circle');
+          expect(div.firstElementChild.getAttribute('viewBox')).to.be.equal('0 0 20 20');
+        });
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>

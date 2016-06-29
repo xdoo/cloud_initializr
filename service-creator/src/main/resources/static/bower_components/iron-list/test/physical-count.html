@@ -1,7 +1,18 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+-->
+<html>
+<head>
   <meta charset="UTF-8">
   <title>iron-list test</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -24,8 +35,70 @@
     </template>
   </test-fixture>
 
-  <script>suite("dynamic physical count",function(){var t,e;setup(function(){e=fixture("trivialList"),t=e.list,t.items=buildDataSet(200)}),test("increase pool size",function(s){setTimeout(function(){t.scrollTop=0;var i=getLastItemFromList(t),n=i.offsetHeight,o=e.listHeight/n-1;assert.equal(t.offsetHeight,e.listHeight),assert.equal(n,2),assert.isTrue(isFullOfItems(t)),assert.equal(i.textContent,o),s()},100)})}),suite("iron-resize",function(){var t,e;setup(function(){e=fixture("trivialListSmall"),t=e.list,t.style.display="none",t.items=buildDataSet(200)}),test("increase pool size after resizing the list",function(e){flush(function(){t.style.display="",assert.notEqual(getFirstItemFromList(t).textContent,"0","Item should not be rendered"),t.fire("iron-resize"),flush(function(){assert.equal(getFirstItemFromList(t).textContent,"0","Item should be rendered"),e()})})}),test("pool should not increase if the list has no size",function(s){e.style.display="none",t.fire("iron-resize"),flush(function(){assert.isFalse(t._increasePoolIfNeeded()),s()})})});</script>
+  <script>
 
+    suite('dynamic physical count', function() {
+      var list, container;
 
+      setup(function() {
+        container = fixture('trivialList');
+        list = container.list;
+        list.items = buildDataSet(200);
+      });
 
-</body></html>
+      test('increase pool size', function(done) {
+        setTimeout(function() {
+          list.scrollTop = 0;
+
+          var lastItem = getLastItemFromList(list);
+          var lastItemHeight = lastItem.offsetHeight;
+          var expectedFinalItem = container.listHeight/lastItemHeight - 1;
+
+          assert.equal(list.offsetHeight, container.listHeight);
+          assert.equal(lastItemHeight, 2);
+          assert.isTrue(isFullOfItems(list));
+          assert.equal(lastItem.textContent, expectedFinalItem);
+          done();
+        }, 100);
+      });
+    });
+
+    suite('iron-resize', function() {
+      var list, container;
+
+      setup(function() {
+        container = fixture('trivialListSmall');
+        list = container.list;
+        list.style.display = 'none';
+        list.items = buildDataSet(200);
+      });
+
+      test('increase pool size after resizing the list', function(done) {
+        flush(function() {
+          list.style.display = '';
+          assert.notEqual(getFirstItemFromList(list).textContent, '0', 'Item should not be rendered');
+
+          list.fire('iron-resize');
+
+          flush(function() {
+            assert.equal(getFirstItemFromList(list).textContent, '0', 'Item should be rendered');
+            done();
+          });
+        });
+      });
+
+      test('pool should not increase if the list has no size', function(done) {
+        container.style.display = 'none';
+        list.fire('iron-resize');
+        
+        flush(function() {
+          assert.isFalse(list._increasePoolIfNeeded());
+          done();
+        });
+      });
+    });
+
+  </script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<html><head><link rel="import" href="../domain-download/domain-download.html">
+<link rel="import" href="../domain-download/domain-download.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -14,36 +14,74 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
-</head><body><dom-module id="domain-domain">
+<dom-module id="domain-domain">
 
-  
+  <!-- Defines the element's style and local DOM -->
   <template>
-    <style is="custom-style">.flex-horizontal{@apply (--layout-horizontal);@apply (--layout-center);}.flex-horizontal > paper-input{margin:3px;}.flex-horizontal > iron-icon{margin-right:5px;}.services{padding:20px;}.footer{color:var(--google-grey-500);font-size:10px;}.flexchild{@apply (--layout-flex);}.flex-end-align{@apply (--layout-horizontal);@apply (--layout-end);}.input-button{width:23px;height:23px;padding:0px 4px;}</style>
+    <style is="custom-style">
+      .flex-horizontal {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+
+      .flex-horizontal > paper-input {
+        margin: 3px;
+      }
+
+      .flex-horizontal > iron-icon {
+        margin-right: 5px;
+      }
+
+      .services {
+        padding: 20px;
+      }
+
+      .footer {
+        color: var(--google-grey-500);
+        font-size: 10px;
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+
+      .flex-end-align {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+
+      .input-button {
+        width: 23px; /* 15px + 2*4px for padding */
+        height: 23px;
+        padding: 0px 4px;
+      }
+
+    </style>
     <paper-card heading="{{domain.name}}" image="../../images/card_bgr.png" class="white">
       <div class="card-content flex-horizontal">
-        <paper-input label="domain name" value="{{domain.name}}" placeholder="My Domain" auto-validate="" allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30"></paper-input>
-        <paper-input label="domain base path" value="{{domain.path}}" placeholder="com.example" auto-validate="" allowed-pattern="[a-z\.]" maxlength="60"></paper-input>
+        <paper-input label="domain name" value="{{domain.name}}" placeholder="My Domain" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30"></paper-input>
+        <paper-input label="domain base path" value="{{domain.path}}" placeholder="com.example" auto-validate allowed-pattern="[a-z\.]" maxlength="60"></paper-input>
         <span class="flexchild"></span>
-        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}" placeholder="service-a" auto-validate="" allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30">
-          <iron-icon icon="image:adjust" style="margin-right: 5px" prefix=""></iron-icon>
-          <paper-icon-button icon="image:control-point" title="add service" on-tap="addService" class="input-button" suffix=""></paper-icon-button>
+        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}" placeholder="service-a" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30">
+          <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
+          <paper-icon-button icon="image:control-point" title="add service" on-tap="addService" class="input-button" suffix></paper-icon-button>
         </paper-input>
       </div>
       <div class="card-actions services flex-horizontal">
         <iron-icon icon="image:blur-on"></iron-icon>
         <span class="flexchild">registry (eureka)</span>
-        <paper-icon-button icon="clear" title="delete" disabled=""></paper-icon-button>
+        <paper-icon-button  icon="clear" title="delete" disabled></paper-icon-button >
       </div>
       <div class="card-actions services flex-horizontal">
         <iron-icon icon="image:blur-circular"></iron-icon>
         <span class="flexchild">proxy (zuul)</span>
-        <paper-icon-button icon="clear" title="delete" disabled=""></paper-icon-button>
+        <paper-icon-button  icon="clear" title="delete" disabled></paper-icon-button >
       </div>
       <template is="dom-repeat" items="{{services}}">
           <div class="card-actions services flex-horizontal">
             <iron-icon icon="image:adjust"></iron-icon>
             <span class="flexchild">{{item.name}}</span>
-            <paper-icon-button icon="clear" title="delete" on-tap="removeService"></paper-icon-button>
+            <paper-icon-button  icon="clear" title="delete" on-tap="removeService"></paper-icon-button >
           </div>
       </template>
       <div class="card-actions">
@@ -53,11 +91,100 @@
     <paper-toast id="toast1" text="We've already a service called 'regsitry'."></paper-toast>
     <paper-toast id="toast2" text="We've already a service called 'proxy'."></paper-toast>
     <paper-toast id="toast3" text="30 services should be enough for a free app, right? :)"></paper-toast>
-
+<!--
+    <p class="footer">
+      Coded with <iron-icon icon="icons:favorite"></iron-icon> in Munich.
+    </p>
+  -->
   </template>
 
-  
-  <script>Polymer({is:"domain-domain",properties:{domain:{type:Object,value:{},notify:!0},services:{type:Array,value:[],notify:!0},servicename:{type:String,value:"",notify:!0}},addService:function(e){var i={};i.name=this.servicename,this.push("services",i),console.log("service "+i.name+" added..."),this.servicename="","undefined"==typeof this.domain.services?this.domain.services=[i]:this.domain.services.push(i),console.log(JSON.stringify(this.domain))},checkService:function(e){return"registry"==e?(this.$.toast1.open(),!1):"proxy"==e?(this.$.toast2.open(),!1):"undefined"==typeof this.domain.services||this.domain.services.length<31?!0:(this.$.toast3.open(),!1)},checkKey:function(e){var i=e.charCode?e.charCode:e.keyCode?e.keyCode:0;13===i&&(console.log("pressed enter"),this.checkService(this.servicename)?this.addService():this.servicename="")},removeService:function(e){var i=this.services.indexOf(e.model.item);this.splice("services",i,1),console.log("service "+e.model.item.name+" removed...");var s=this.domain.services.indexOf(e.model.item);this.domain.services.splice(s,1),console.log(JSON.stringify(this.domain))}});</script>
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'domain-domain',
+      properties: {
+        domain: {
+          type: Object,
+          value: {},
+          notify: true
+        },
+        services: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+        servicename: {
+          type: String,
+          value: '',
+          notify: true
+        }
+      },
+
+      addService: function(e) {
+        var service = {};
+        service.name=this.servicename;
+        this.push('services', service);
+        console.log('service ' + service.name + ' added...');
+        this.servicename = '';
+
+        // add service into domain object
+        if(typeof this.domain.services == 'undefined') {
+          this.domain.services = [service];
+        } else {
+          this.domain.services.push(service);
+        }
+        console.log(JSON.stringify(this.domain));
+      },
+
+      checkService: function(name) {
+        // name must not equal to 'registry'
+        if(name == 'registry') {
+          this.$.toast1.open();
+          return false;
+        }
+
+        // name must not equal to 'proxy'
+        if(name == 'proxy') {
+          this.$.toast2.open();
+          return false;
+        }
+
+        // 30 services are enough
+        if(!(typeof this.domain.services == 'undefined') && !(this.domain.services.length < 31)) {
+          this.$.toast3.open();
+          return false;
+        }
+
+        return true;
+
+      },
+
+      checkKey: function(e) {
+        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if( key === 13) {
+          console.log("pressed enter");
+          if(this.checkService(this.servicename)) {
+            this.addService();
+          } else {
+            this.servicename = '';
+          }
+        }
+      },
+
+      removeService: function(e) {
+        var index1 = this.services.indexOf(e.model.item);
+        this.splice('services', index1, 1);
+        console.log('service ' + e.model.item.name + ' removed...');
+
+        // remove service from domain object
+        var index2 = this.domain.services.indexOf(e.model.item);
+        this.domain.services.splice(index2, 1);
+
+        console.log(JSON.stringify(this.domain));
+      }
+
+
+    });
+  </script>
 
 </dom-module>
-</body></html>
