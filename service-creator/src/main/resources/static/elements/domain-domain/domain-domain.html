@@ -61,10 +61,10 @@
     </style>
     <paper-card heading="{{domain.name}}" image="../../images/card_bgr.png" class="white">
       <div class="card-content flex-horizontal">
-        <paper-input label="domain name" value="{{domain.name}}" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30"></paper-input>
-        <paper-input label="domain base path" value="{{domain.path}}" auto-validate allowed-pattern="[a-z\.]" maxlength="60"></paper-input>
+        <paper-input label="domain name" value="{{domain.name}}" placeholder="My Domain" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30"></paper-input>
+        <paper-input label="domain base path" value="{{domain.path}}" placeholder="com.example" auto-validate allowed-pattern="[a-z\.]" maxlength="60"></paper-input>
         <span class="flexchild"></span>
-        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30">
+        <paper-input label="new service name" on-keypress="checkKey" value="{{servicename}}" placeholder="service-a" auto-validate allowed-pattern="[a-zA-Z\-\_ ]" maxlength="30">
           <iron-icon  icon="image:adjust" style="margin-right: 5px" prefix></iron-icon>
           <paper-icon-button icon="image:control-point" title="add service" on-tap="addService" class="input-button" suffix></paper-icon-button>
         </paper-input>
