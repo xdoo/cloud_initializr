@@ -1,17 +1,16 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
     <meta charset="utf-8">
     <script>WCT = <%= JSON.stringify(clientOptions) %>;</script>
-    <script>window.__generatedByWct = true;</script>
+    <script>window.__generatedByWct=!0;</script>
     <script src="/web-component-tester/browser.js"></script>
-<% extraScripts.forEach(function(script) { %>    <script src="<%- script %>"></script>
-<% }); %>
+</head><body>&lt;% extraScripts.forEach(function(script) { %&gt;    <script src="<%- script %>"></script>
+&lt;% }); %&gt;
     <script src="/web-component-tester/data/a11ySuite.js"></script>
-</head>
-  <body>
+
+  
     <script>
       WCT.loadSuites(<%= JSON.stringify(suites) %>);
     </script>
-  </body>
-</html>
+  
+
+</body></html>

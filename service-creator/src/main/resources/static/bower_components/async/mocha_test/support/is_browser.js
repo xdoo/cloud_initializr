@@ -1,4 +1,1 @@
-module.exports = function() {
-    return (typeof process === "undefined") ||
-        (process + "" !== "[object process]"); // browserify
-};
+module.exports=function(){return"undefined"==typeof process||process+""!="[object process]"};

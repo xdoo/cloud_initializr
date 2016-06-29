@@ -1,15 +1,4 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <title>app-route-converter</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
@@ -26,33 +15,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <script>
-    'use strict';
+  <script>"use strict";suite("<app-route-converter>",function(){test("it bidirectionally maps path and queryParams to route",function(){var e=fixture("BasicRouteConversion"),t={x:"10"};e.path="/a/b/c",e.queryParams=t,expect(e.route).to.be.deep.equal({prefix:"",path:"/a/b/c",__queryParams:t}),e.set("route.path","/d/e/f"),expect(e.path).to.be.equal("/d/e/f"),t={y:"11"},e.set("route.__queryParams",t),expect(e.queryParams).to.be.deep.equal(t),t.z="12",expect(e.queryParams).to.be.deep.equal(t)})});</script>
 
-    suite('<app-route-converter>', function() {
-      test('it bidirectionally maps path and queryParams to route', function() {
-        var converter = fixture('BasicRouteConversion');
-
-        var queryParams = {x: '10'};
-        converter.path = '/a/b/c';
-        converter.queryParams = queryParams;
-
-        expect(converter.route).to.be.deep.equal({
-          prefix: '',
-          path: '/a/b/c',
-          __queryParams: queryParams
-        });
-
-        converter.set('route.path', '/d/e/f');
-        expect(converter.path).to.be.equal('/d/e/f');
-
-        queryParams = {y: '11'};
-        converter.set('route.__queryParams', queryParams);
-        expect(converter.queryParams).to.be.deep.equal(queryParams);
-
-        queryParams['z'] = '12';
-        expect(converter.queryParams).to.be.deep.equal(queryParams);
-      });
-    });
-  </script>
-</body>
+</body></html>

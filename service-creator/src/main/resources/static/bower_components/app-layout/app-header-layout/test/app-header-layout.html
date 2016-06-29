@@ -1,18 +1,7 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
-The complete set of authors may be found at http://polymer.github.io/AUTHORS
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
--->
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <meta charset="UTF-8">
   <title>test for app-header-layout</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 
   <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../../web-component-tester/browser.js"></script>
@@ -22,22 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../app-header/app-header.html">
   <link rel="import" href="../app-header-layout.html">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    app-header {
-      background: green;
-    }
-
-    .content {
-      width: 1px;
-      height: 3000px;
-      background-color: red;
-    }
-  </style>
+  <style>body{margin:0;padding:0;}app-header{background:green;}.content{width:1px;height:3000px;background-color:red;}</style>
 
 </head>
 <body>
@@ -45,10 +19,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <test-fixture id="trivialHeader">
     <template>
       <app-header-layout>
-        <app-header condenses>
+        <app-header condenses="">
           <app-toolbar></app-toolbar>
           <app-toolbar>
-            <div title spacer>Title</div>
+            <div title="" spacer="">Title</div>
           </app-toolbar>
         </app-header>
         <div class="content"></div>
@@ -56,51 +30,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <script>
+  <script>suite("basic features",function(){var e,t,o;setup(function(){e=fixture("trivialHeader"),t=e.querySelector("app-header"),o=e.querySelector("app-toolbar")}),test("default values",function(){assert.isFalse(e.hasScrollingRegion),assert.equal(t.scrollTarget,document.documentElement)}),test("scrolling region",function(){e.hasScrollingRegion=!0,assert.isTrue(t.scrollTarget!==document.documentElement,"scroller should not point to the document element")}),test("header box size",function(o){e.hasScrollingRegion=!1,flush(function(){assert.equal(e.offsetWidth,t.offsetWidth,"should have the same width of app-header-layout"),e.style.width="200px",e.resetLayout(),flush(function(){assert.equal(e.offsetWidth,t.offsetWidth,"should have the same width of app-header-layout even after setting a width"),o()})})})});</script>
 
-    suite('basic features', function() {
-      var headerLayout, header, toolbar;
 
-      setup(function() {
-        headerLayout = fixture('trivialHeader');
-        header = headerLayout.querySelector('app-header');
-        toolbar = headerLayout.querySelector('app-toolbar');
-      });
 
-      test('default values', function() {
-        assert.isFalse(headerLayout.hasScrollingRegion);
-        assert.equal(header.scrollTarget, document.documentElement);
-      });
-
-      test('scrolling region', function() {
-        headerLayout.hasScrollingRegion = true;
-        assert.isTrue(header.scrollTarget !== document.documentElement, 'scroller should not point to the document element');
-      });
-
-      test('header box size', function(done) {
-        headerLayout.hasScrollingRegion = false;
-
-        flush(function() {
-          assert.equal(headerLayout.offsetWidth, header.offsetWidth,
-              'should have the same width of app-header-layout');
-
-          headerLayout.style.width = '200px';
-
-          headerLayout.resetLayout();
-
-          flush(function() {
-            assert.equal(headerLayout.offsetWidth, header.offsetWidth,
-              'should have the same width of app-header-layout even after setting a width');
-            done();
-          });
-
-        });
-
-      });
-
-    });
-
-  </script>
-
-</body>
-</html>
+</body></html>
