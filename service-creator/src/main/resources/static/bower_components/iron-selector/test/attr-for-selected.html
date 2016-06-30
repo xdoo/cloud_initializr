@@ -1,8 +1,20 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+<head>
 
   <title>iron-selector attr-for-selected</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -14,7 +26,15 @@
   <link rel="import" href="../iron-selector.html">
   <link rel="import" href="attr-for-selected-elements.html">
 
-  <style>.iron-selected{background:#ccc;}.my-selected{background:red;}</style>
+  <style>
+    .iron-selected {
+      background: #ccc;
+    }
+
+    .my-selected {
+      background: red;
+    }
+  </style>
 
 </head>
 <body>
@@ -62,8 +82,148 @@
     </template>
   </test-fixture>
 
-  <script>suite("inline attributes",function(){var e,t;setup(function(){e=fixture("inlineAttributes"),t=Array.prototype.slice.apply(e.querySelectorAll("div[some-attr]"))}),test("selecting value programatically selects correct item",function(){e.select("value1"),assert.equal(e.selectedItem,t[1])}),test("selecting item sets the correct selected value",function(l){MockInteractions.downAndUp(t[2],function(){assert.equal(e.selected,"value2"),l()})})}),suite("reflected properties as attributes",function(){var e,t;setup(function(){e=fixture("reflectedProperties"),t=Array.prototype.slice.apply(e.querySelectorAll("attr-reflector"));for(var l=0;l<t.length;l++)t[l].someAttr="value"+l}),test("selecting value programatically selects correct item",function(){e.select("value1"),assert.equal(e.selectedItem,t[1])}),test("selecting item sets the correct selected value",function(l){MockInteractions.downAndUp(t[2],function(){assert.equal(e.selected,"value2"),l()})})}),suite("mixed properties and inline attributes",function(){var e,t;setup(function(){e=fixture("mixedPropertiesAndAttributes"),t=Array.prototype.slice.apply(e.querySelectorAll("attr-reflector, div[some-attr]"));for(var l=0;l<t.length;l++)t[l].someAttr="value"+l}),test("selecting value programatically selects correct item",function(){for(var l=0;l<t.length;l++)e.select("value"+l),assert.equal(e.selectedItem,t[l])}),test("selecting item sets the correct selected value",function(l){function s(a){return a>=t.length?void l():void MockInteractions.downAndUp(t[a],function(){assert.equal(e.selected,"value"+a),s(a+1)})}var a=0;s(a)})}),suite("default attribute",function(){var e,t;setup(function(){e=fixture("defaultAttribute"),t=Array.prototype.slice.apply(e.querySelectorAll("div[some-attr]"))}),test("setting non-existing value sets default",function(){e.select("non-existing-value"),assert.equal(e.selected,"default"),assert.equal(e.selectedItem,t[2])}),test("setting non-existing value sets default",function(){e.multi=!0,e.select(["non-existing-value"]),assert.deepEqual(e.selectedValues,["default"]),assert.deepEqual(e.selectedItems,[t[2]])}),test("default not used when there was at least one match",function(){e.multi=!0,e.selectedValues=["non-existing-value","value0"],assert.deepEqual(e.selectedValues,["non-existing-value","value0"]),assert.deepEqual(e.selectedItems,[t[0]])}),test("default element not found does not result in infinite loop",function(){e.fallbackSelection="non-existing-fallback",e.select("non-existing-value"),assert.equal(e.selectedItem,void 0),e.multi=!0,e.selectedValues=["non-existing-value"],assert.deepEqual(e.selectedItems,[void 0]),e.fallbackSelection="default",assert.deepEqual(e.selectedItems,[t[2]])}),test("selection is updated after fallback is set",function(){e.fallbackSolution=void 0,e.select("non-existing-value"),e.fallbackSelection="default",assert.equal(e.selectedItem,t[2])}),test("multi-selection is updated after fallback is set",function(){e.fallbackSolution=void 0,e.selectedValues=["non-existing-value"],e.fallbackSolution="default",assert.equal(e.selectedItem,t[2])})});</script>
+  <script>
+    suite('inline attributes', function() {
+      var selector;
+      var items;
 
+      setup(function () {
+        selector = fixture('inlineAttributes');
+        items = Array.prototype.slice.apply(selector.querySelectorAll('div[some-attr]'));
+      });
 
+      test('selecting value programatically selects correct item', function() {
+        selector.select('value1');
+        assert.equal(selector.selectedItem, items[1]);
+      });
 
-</body></html>
+      test('selecting item sets the correct selected value', function(done) {
+        MockInteractions.downAndUp(items[2], function() {
+          assert.equal(selector.selected, 'value2');
+          done();
+        });
+      });
+    });
+
+    suite('reflected properties as attributes', function() {
+      var selector;
+      var items;
+
+      setup(function () {
+        selector = fixture('reflectedProperties');
+        items = Array.prototype.slice.apply(selector.querySelectorAll('attr-reflector'));
+        for (var i = 0; i < items.length; i++) {
+          items[i].someAttr = "value" + i;
+        }
+      });
+
+      test('selecting value programatically selects correct item', function() {
+        selector.select('value1');
+        assert.equal(selector.selectedItem, items[1]);
+      });
+
+      test('selecting item sets the correct selected value', function(done) {
+        MockInteractions.downAndUp(items[2], function() {
+          assert.equal(selector.selected, 'value2');
+          done();
+        });
+      });
+    });
+
+    suite('mixed properties and inline attributes', function() {
+      var selector;
+      var items;
+
+      setup(function () {
+        selector = fixture('mixedPropertiesAndAttributes');
+        items = Array.prototype.slice.apply(selector.querySelectorAll('attr-reflector, div[some-attr]'));
+        for (var i = 0; i < items.length; i++) {
+          items[i].someAttr = "value" + i;
+        }
+      });
+
+      test('selecting value programatically selects correct item', function() {
+        for (var i = 0; i < items.length; i++) {
+          selector.select('value' + i);
+          assert.equal(selector.selectedItem, items[i]);
+        }
+      });
+
+      test('selecting item sets the correct selected value', function(done) {
+        var i = 0;
+
+        function testSelectItem(i) {
+          if (i >= items.length) {
+            done();
+            return;
+          }
+
+          MockInteractions.downAndUp(items[i], function() {
+            assert.equal(selector.selected, 'value' + i);
+
+            testSelectItem(i + 1);
+          });
+        }
+
+        testSelectItem(i);
+      });
+    });
+
+    suite('default attribute', function() {
+      var selector;
+      var items;
+
+      setup(function () {
+        selector = fixture('defaultAttribute');
+        items = Array.prototype.slice.apply(selector.querySelectorAll('div[some-attr]'));
+      });
+
+      test('setting non-existing value sets default', function() {
+        selector.select('non-existing-value');
+        assert.equal(selector.selected, 'default');
+        assert.equal(selector.selectedItem, items[2]);
+      });
+
+      test('setting non-existing value sets default', function() {
+        selector.multi = true;
+        selector.select(['non-existing-value']);
+        assert.deepEqual(selector.selectedValues, ['default']);
+        assert.deepEqual(selector.selectedItems, [items[2]]);
+      });
+
+      test('default not used when there was at least one match', function() {
+        selector.multi = true;
+        selector.selectedValues = ['non-existing-value', 'value0'];
+        assert.deepEqual(selector.selectedValues, ['non-existing-value', 'value0']);
+        assert.deepEqual(selector.selectedItems, [items[0]]);
+      });
+
+      test('default element not found does not result in infinite loop', function() {
+        selector.fallbackSelection = 'non-existing-fallback';
+        selector.select('non-existing-value');
+        assert.equal(selector.selectedItem, undefined);
+        selector.multi = true;
+        selector.selectedValues = ['non-existing-value'];
+        assert.deepEqual(selector.selectedItems, [undefined]);
+        selector.fallbackSelection = 'default';
+        assert.deepEqual(selector.selectedItems, [items[2]]);
+      });
+
+      test('selection is updated after fallback is set', function() {
+        selector.fallbackSolution = undefined;
+        selector.select('non-existing-value');
+        selector.fallbackSelection = 'default';
+        assert.equal(selector.selectedItem, items[2]);
+      });
+
+      test('multi-selection is updated after fallback is set', function() {
+        selector.fallbackSolution = undefined;
+        selector.selectedValues = ['non-existing-value'];
+        selector.fallbackSolution = 'default';
+        assert.equal(selector.selectedItem, items[2]);
+      });
+    });
+  </script>
+
+</body>
+</html>
