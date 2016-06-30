@@ -149,6 +149,11 @@
           return false;
         }
 
+        // name must not be empty
+        if(typeof name == 'undefined' || name == ''){
+          return false;
+        }
+
         // 30 services are enough
         if(!(typeof this.domain.services == 'undefined') && !(this.domain.services.length < 31)) {
           this.$.toast3.open();
