@@ -1,18 +1,6 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<!doctype html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes">
 
   <title>App Layout</title>
 
@@ -27,262 +15,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="app-layout.html">
   <link rel="import" href="site/device-viewer/device-layout-viewer.html">
 
-  <style is="custom-style">
-
-    body {
-      margin: 0;
-      font-family: 'Roboto', 'Noto', sans-serif;
-      background-color: #fafafa;
-    }
-
-    a {
-      text-decoration: none;
-      font-size: inherit;
-      color: inherit;
-    }
-
-    app-header {
-      background-color: #4FB6F7;
-      color: #fff;
-    }
-
-    .top-toolbar {
-      height: 320px;
-    }
-
-    .heading {
-      font-family: Roboto Mono;
-      margin-left: 40px;
-    }
-
-    .heading > .title {
-      font-size: 56px;
-    }
-
-    .heading > .sub-title {
-      margin-top: 24px;
-      line-height: 1.6;
-    }
-
-    .bottom-toolbar {
-      height: 136px;
-    }
-
-    .bottom-tools {
-      margin-left: auto;
-    }
-
-    .bottom-toolbar paper-button {
-      width: 220px;
-      background-color: #FC6C9C;
-      margin: 4px 8px;
-      text-transform: none;
-    }
-
-    .bottom-toolbar paper-button iron-icon {
-      margin-right: 8px;
-    }
-
-    device-layout-viewer {
-      height: 600px;
-    }
-
-    .horizontal.layout {
-      @apply(--layout-horizontal);
-    }
-
-    .vertical.layout {
-      @apply(--layout-vertical);
-    }
-
-    .center.layout {
-      @apply(--layout-center);
-    }
-
-    .flex {
-      @apply(--layout-flex);
-    }
-
-    section {
-      text-align: center;
-      padding-top: 80px;
-    }
-
-    section > h1 {
-      margin: 0 0 32px 0;
-      font-size: 48px;
-      font-weight: 300;
-    }
-
-    section > p {
-      max-width: 640px;
-      margin: 32px auto;
-      padding: 0 8px;
-      font-size: 18px;
-      letter-spacing: 0.05em;
-      line-height: 1.5;
-    }
-
-    .grid {
-      width: 832px;
-      @apply(--layout-horizontal);
-      @apply(--layout-wrap);
-      margin: 0 auto;
-    }
-
-    .grid-item {
-      position: relative;
-      width: 400px;
-      max-height: 420px;
-      @apply(--layout-flex-none);
-      margin: 8px;
-      padding-bottom: 24px;
-      background-color: #fff;
-      @apply(--shadow-elevation-2dp);
-    }
-
-    .grid-item > .image {
-      height: 300px;
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-      background-size: cover;
-    }
-
-    .grid-item > .caption {
-      border-top: 1px solid #ddd;
-      text-align: center;
-      color: #5c5c5c;
-    }
-
-    .caption > h3 {
-      margin: 24px 0;
-    }
-
-    .caption > p {
-      margin: 16px 16px 24px;
-      line-height: 1.5;
-    }
-
-    .grid-item paper-button {
-      background-color: #4FB6F7;
-      color: #fff;
-    }
-
-    .misc-link {
-      display: inline-block;
-      padding: 12px 0;
-      font-size: 24px;
-      line-height: 1.25;
-      color: #147BCC;
-    }
-
-    footer {
-      padding-top: 200px;
-    }
-
-    .footer-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 36px 16px;
-      border-top: 1px solid #acacac;
-      font-size: 18px;
-      line-height: 3;
-      color: #147BCC;
-    }
-
-    .footer-inner .title {
-      font-size: 20px;
-      color: #333;
-    }
-
-    .dot-separator {
-      padding: 0 8px;
-    }
-
-    .dot-separator::after {
-      content: '\2022';
-    }
-
-    .logo {
-      width: 40px;
-      height: 40px;
-      margin-right: 8px;
-      background: url(site/images/polymer.svg) 50% no-repeat;
-      background-size: contain;
-    }
-
-    @media (max-width: 1024px) {
-
-      .heading {
-        margin-left: 16px;
-      }
-
-      device-layout-viewer {
-        height: 340px;
-      }
-
-    }
-
-    @media (max-width: 848px) {
-
-      .grid {
-        width: 416px;
-      }
-
-    }
-
-    @media (max-width: 600px) {
-
-      .responsive.horizontal.layout {
-        @apply(--layout-vertical);
-      }
-
-      .wide-only {
-        display: none;
-      }
-
-      .heading {
-        margin-left: 0;
-      }
-
-      device-layout-viewer {
-        height: 240px;
-      }
-
-      .bottom-toolbar paper-button {
-        width: 200px;
-        margin: 4px 0;
-      }
-
-    }
-
-    @media (max-width: 432px) {
-
-      .heading > .title {
-        font-size: 40px;
-      }
-
-      .grid {
-        width: auto;
-        @apply(--layout-vertical);
-      }
-
-      .grid-item {
-        width: auto;
-      }
-
-    }
-
-  </style>
+  <style is="custom-style">body{margin:0;font-family:'Roboto', 'Noto', sans-serif;background-color:#fafafa;}a{text-decoration:none;font-size:inherit;color:inherit;}app-header{background-color:#4FB6F7;color:#fff;}.top-toolbar{height:320px;}.heading{font-family:Roboto Mono;margin-left:40px;}.heading > .title{font-size:56px;}.heading > .sub-title{margin-top:24px;line-height:1.6;}.bottom-toolbar{height:136px;}.bottom-tools{margin-left:auto;}.bottom-toolbar paper-button{width:220px;background-color:#FC6C9C;margin:4px 8px;text-transform:none;}.bottom-toolbar paper-button iron-icon{margin-right:8px;}device-layout-viewer{height:600px;}.horizontal.layout{@apply (--layout-horizontal);}.vertical.layout{@apply (--layout-vertical);}.center.layout{@apply (--layout-center);}.flex{@apply (--layout-flex);}section{text-align:center;padding-top:80px;}section > h1{margin:0 0 32px 0;font-size:48px;font-weight:300;}section > p{max-width:640px;margin:32px auto;padding:0 8px;font-size:18px;letter-spacing:0.05em;line-height:1.5;}.grid{width:832px;@apply (--layout-horizontal);@apply (--layout-wrap);margin:0 auto;}.grid-item{position:relative;width:400px;max-height:420px;@apply (--layout-flex-none);margin:8px;padding-bottom:24px;background-color:#fff;@apply (--shadow-elevation-2dp);}.grid-item > .image{height:300px;background-repeat:no-repeat;background-position:50% 50%;background-size:cover;}.grid-item > .caption{border-top:1px solid #ddd;text-align:center;color:#5c5c5c;}.caption > h3{margin:24px 0;}.caption > p{margin:16px 16px 24px;line-height:1.5;}.grid-item paper-button{background-color:#4FB6F7;color:#fff;}.misc-link{display:inline-block;padding:12px 0;font-size:24px;line-height:1.25;color:#147BCC;}footer{padding-top:200px;}.footer-inner{max-width:900px;margin:0 auto;padding:36px 16px;border-top:1px solid #acacac;font-size:18px;line-height:3;color:#147BCC;}.footer-inner .title{font-size:20px;color:#333;}.dot-separator{padding:0 8px;}.dot-separator::after{content:'\2022';}.logo{width:40px;height:40px;margin-right:8px;background:url(site/images/polymer.svg) 50% no-repeat;background-size:contain;}@media (max-width: 1024px){.heading{margin-left:16px;}device-layout-viewer{height:340px;}}@media (max-width: 848px){.grid{width:416px;}}@media (max-width: 600px){.responsive.horizontal.layout{@apply (--layout-vertical);}.wide-only{display:none;}.heading{margin-left:0;}device-layout-viewer{height:240px;}.bottom-toolbar paper-button{width:200px;margin:4px 0;}}@media (max-width: 432px){.heading > .title{font-size:40px;}.grid{width:auto;@apply (--layout-vertical);}.grid-item{width:auto;}}</style>
 
 </head>
-<body unresolved>
+<body unresolved="">
 
   <template is="dom-bind">
 
-    <iron-ajax url="site/resources.json" auto last-response="{{resources}}"></iron-ajax>
+    <iron-ajax url="site/resources.json" auto="" last-response="{{resources}}"></iron-ajax>
 
-    <app-header fixed>
+    <app-header fixed="">
 
       <app-toolbar class="top-toolbar">
         <div class="heading">
@@ -294,10 +36,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-toolbar class="bottom-toolbar">
         <div class="bottom-tools responsive horizontal layout">
           <a href="https://github.com/PolymerElements/app-layout" target="_blank" tabindex="-1">
-            <paper-button raised><iron-icon icon="file-download"></iron-icon>View On GitHub</paper-button>
+            <paper-button raised=""><iron-icon icon="file-download"></iron-icon>View On GitHub</paper-button>
           </a>
           <a href="https://elements.polymer-project.org/elements/app-layout" target="_blank" tabindex="-1">
-            <paper-button raised><iron-icon icon="subject"></iron-icon>API Docs</paper-button>
+            <paper-button raised=""><iron-icon icon="subject"></iron-icon>API Docs</paper-button>
           </a>
         </div>
       </app-toolbar>
@@ -326,10 +68,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <h3>{{item.name}}</h3>
               <div>
                 <a href="{{item.demoUrl}}" target="_blank" tabindex="-1">
-                  <paper-button raised>View</paper-button>
+                  <paper-button raised="">View</paper-button>
                 </a>
                 <a href="{{item.sourceUrl}}" target="_blank" tabindex="-1">
-                  <paper-button raised>Source</paper-button>
+                  <paper-button raised="">Source</paper-button>
                 </a>
               </div>
             </div>
@@ -357,10 +99,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <p>{{item.desc}}</p>
               <div>
                 <a href="{{item.demoUrl}}" target="_blank" tabindex="-1">
-                  <paper-button raised>View</paper-button>
+                  <paper-button raised="">View</paper-button>
                 </a>
                 <a href="{{item.sourceUrl}}" target="_blank" tabindex="-1">
-                  <paper-button raised>Source</paper-button>
+                  <paper-button raised="">Source</paper-button>
                 </a>
               </div>
             </div>
@@ -388,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <h3>{{item.name}}</h3>
               <div>
                 <a href="{{item.demoUrl}}" target="_blank" tabindex="-1">
-                  <paper-button raised>View</paper-button>
+                  <paper-button raised="">View</paper-button>
                 </a>
               </div>
             </div>
@@ -416,7 +158,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="logo"></div><div class="title">Polymer</div>
         </a>
         <div class="flex"></div>
-        <a target="_blank" href="https://polymer.github.io/LICENSE.txt" data-outbound="license-txt">&copy; 2015 Polymer Authors</a>
+        <a target="_blank" href="https://polymer.github.io/LICENSE.txt" data-outbound="license-txt">© 2015 Polymer Authors</a>
         <div class="dot-separator wide-only"></div>
         <a target="_blank" href="https://www.polymer-project.org" data-outbound="about-polymer">About Polymer</a>
       </div>
@@ -424,5 +166,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </template>
 
-</body>
-</html>
+
+
+</body></html>

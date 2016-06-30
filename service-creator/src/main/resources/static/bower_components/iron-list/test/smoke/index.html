@@ -1,21 +1,9 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<!doctype html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
 
   <title>iron-list demo</title>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
 
@@ -26,77 +14,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../iron-list.html">
   <link rel="import" href="dummy-data.html">
 
-  <dom-module id="x-app">
-    <style>
-
-      :host {
-        display: block;
-        font-family: sans-serif;
-        @apply(--layout-horizontal);
-      }
-
-      iron-list {
-        @apply(--layout-flex);
-        height: 100%;
-      }
-
-      .item {
-        display: block;
-        padding: 8px;
-        border-bottom: 1px solid gray;
-        @apply(--layout-horizontal);
-      }
-
-      .item img {
-        height: 40px;
-        width: 40px;
-      }
-
-      .picture {
-        @apply(--layout-vertical);
-      }
-
-      #about {
-        color: lightgray;
-        font-style: italic;
-        font-size: 0.8em;
-      }
-
-      #last {
-        font-weight: bold;
-        font-size: 1.2em;
-      }
-
-      .padded {
-        @apply(--layout-flex);
-      }
-
-      .padded > * {
-        padding: 8px;
-      }
-
-      #index {
-        text-align: center;
-        padding-top: 8px;
-      }
-      #options {
-        background: white;
-        border-radius: 10px;
-        border: 1px solid gray;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        z-index: 10;
-        padding: 5px;
-      }
-      #friends {
-        height: 20px;
-      }
-
-    </style>
+  </head><body unresolved=""><dom-module id="x-app">
+    <style>:host{display:block;font-family:sans-serif;@apply (--layout-horizontal);}iron-list{@apply (--layout-flex);height:100%;}.item{display:block;padding:8px;border-bottom:1px solid gray;@apply (--layout-horizontal);}.item img{height:40px;width:40px;}.picture{@apply (--layout-vertical);}#about{color:lightgray;font-style:italic;font-size:0.8em;}#last{font-weight:bold;font-size:1.2em;}.padded{@apply (--layout-flex);}.padded > *{padding:8px;}#index{text-align:center;padding-top:8px;}#options{background:white;border-radius:10px;border:1px solid gray;position:absolute;top:5px;right:5px;z-index:10;padding:5px;}#friends{height:20px;}</style>
     <template>
       <div id="options">
-        <input value="{{separator::input}}" style="width:20px;">
+        <input value="{{separator::input}}" style="width:20px">
         <label><input type="checkbox" checked="{{showing::change}}">Show friends</label>
       </div>
 
@@ -159,47 +81,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </dom-module>
 
-  <script>
+  <script>HTMLImports.whenReady(function(){Polymer({is:"x-app",properties:{data:{value:window.dummyData},separator:{value:"|"},showing:{value:!1}},pictureForItem:function(e){return e.picture+"/"+e.guid.slice(0,6)},iconForItem:function(e){return"female"==e.gender?"star":"star-outline"}})});</script>
 
-    HTMLImports.whenReady(function() {
+  <style is="custom-style">body, x-app{@apply (--layout-fit);}</style>
 
-      Polymer({
 
-        is: 'x-app',
 
-        properties: {
-          data: {
-            value: window.dummyData
-          },
-          separator: {
-            value: '|'
-          },
-          showing: {
-            value: false
-          }
-        },
-        pictureForItem: function(item) {
-          return item.picture + '/' + item.guid.slice(0,6);
-        },
-        iconForItem: function(item) {
-          return item.gender == 'female' ? 'star' : 'star-outline';
-        }
-      });
-
-    });
-
-  </script>
-
-  <style is="custom-style">
-    body, x-app {
-      @apply(--layout-fit);
-    }
-  </style>
-
-</head>
-<body unresolved>
 
   <x-app></x-app>
 
-</body>
-</html>
+
+
+</body></html>

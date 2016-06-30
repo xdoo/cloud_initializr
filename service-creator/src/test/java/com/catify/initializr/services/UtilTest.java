@@ -29,8 +29,8 @@ public class UtilTest {
     @Test
     public void testCreateServiceName() {
         System.out.println("cleanServiceName");
-        String result = Util.createServiceName("foo-bar.fuu_bor");
-        assertEquals("foobarfuubor", result);
+        String result = Util.createServiceName("Foo-bar.fUu_bor bul");
+        assertEquals("foobarfuuborbul", result);
     }
 
     /**

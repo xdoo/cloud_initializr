@@ -1,56 +1,18 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
-<dom-module id="domain-download">
+</head><body><dom-module id="domain-download">
 
-  <!-- Defines the element's style and local DOM -->
+  
   <template>
-    <style is="custom-style">
-      :host {
-        display: block;
-        padding: 16px;
-
-      }
-      paper-button.custom {
-        --paper-button-ink-color: var(--paper-pink-a200);
-        /* These could also be individually defined for each of the
-          specific css classes, but we'll just do it once as an example */
-        --paper-button-flat-keyboard-focus: {
-          background-color: var(--paper-pink-a200);
-          color: white !important;
-        };
-        --paper-button-raised-keyboard-focus: {
-          background-color: var(--paper-pink-a200) !important;
-          color: white !important;
-        };
-      }
-      paper-button.custom:hover {
-        background-color: var(--paper-indigo-100);
-      }
-      paper-button.green {
-        background-color: var(--paper-green-500);
-        color: white;
-      }
-    </style>
-    <iron-ajax
-     id="ajax"
-     url="[[url]]/zip/"
-     handle-as="blob"
-     content-type="application/json"
-     method="POST"
-     body="[[domain]]"
-     on-response="handleResponse"
-     debounce-duration="3000">
+    <style is="custom-style">:host{display:block;padding:16px;}paper-button.custom{--paper-button-ink-color:var(--paper-pink-a200);--paper-button-flat-keyboard-focus:{background-color:var(--paper-pink-a200);color:white !important;};--paper-button-raised-keyboard-focus:{background-color:var(--paper-pink-a200) !important;color:white !important;};}paper-button.custom:hover{background-color:var(--paper-indigo-100);}paper-button.green{background-color:var(--paper-green-500);color:white;}</style>
+    <iron-ajax id="ajax" url="[[url]]/zip/" handle-as="blob" content-type="application/json" method="POST" body="[[domain]]" on-response="handleResponse" debounce-duration="3000">
  </iron-ajax>
- <paper-button
-    toggles
-    raised
-    on-tap="setajax"
-    class="custom green">
+ <paper-button toggles="" raised="" on-tap="setajax" class="custom green">
     <iron-icon icon="image:wb-cloudy" style="padding-right: 10px"></iron-icon>build your cloud now
   </paper-button>
   <paper-toast id="toast1" text="You should give your domain a name like 'My Domain'."></paper-toast>
@@ -58,52 +20,8 @@
   <paper-toast id="toast3" text="At least one service would be useful. :)"></paper-toast>
   </template>
 
-  <!-- Creates the element's prototype and registers it -->
-  <script>
-    Polymer({
-      is: 'domain-download',
-      properties: {
-        domain: {
-          type: Object,
-          notify: true
-        },
-        url: {
-          type: String,
-          value: "http://www.initializer.io"
-        }
-      },
-      setajax: function () {
-        if(this.checkPayload()) {
-            this.$.ajax.generateRequest();
-        }
-      },
-      checkPayload: function() {
-
-        if(typeof this.domain.name == 'undefined' || this.domain.name == '') {
-          this.$.toast1.open();
-          return false;
-        }
-
-        if(typeof this.domain.path == 'undefined' || this.domain.path == '') {
-          this.$.toast2.open();
-          return false;
-        }
-
-        if(typeof this.domain.services == 'undefined' || this.domain.services.length < 1) {
-          this.$.toast3.open();
-          return false;
-        }
-
-        return true;
-      },
-      handleResponse: function(request) {
-        var blob = request.detail.response;
-        console.log(request.detail.response);
-
-        var url  = window.URL.createObjectURL(blob);
-        window.location.assign(url);
-      }
-    });
-  </script>
+  
+  <script>Polymer({is:"domain-download",properties:{domain:{type:Object,notify:!0},url:{type:String,value:"http://www.initializr.io"}},setajax:function(){this.checkPayload()&&this.$.ajax.generateRequest()},checkPayload:function(){return"undefined"==typeof this.domain.name||""==this.domain.name?(this.$.toast1.open(),!1):"undefined"==typeof this.domain.path||""==this.domain.path?(this.$.toast2.open(),!1):"undefined"==typeof this.domain.services||this.domain.services.length<1?(this.$.toast3.open(),!1):!0},handleResponse:function(e){var t=e.detail.response;console.log(e.detail.response);var i=window.URL.createObjectURL(t);window.location.assign(i)}});</script>
 
 </dom-module>
+</body></html>

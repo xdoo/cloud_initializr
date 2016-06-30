@@ -1,20 +1,8 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<html>
-<head>
+<!DOCTYPE html><html><head>
 
   <title>iron-selector-multi</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -24,18 +12,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
   <link rel="import" href="../iron-selector.html">
 
-  <style>
-    .iron-selected {
-      background: #ccc;
-    }
-  </style>
+  <style>.iron-selected{background:#ccc;}</style>
 
 </head>
 <body>
 
   <test-fixture id="test">
     <template>
-      <iron-selector multi>
+      <iron-selector multi="">
         <div>Item 0</div>
         <div>Item 1</div>
         <div>Item 2</div>
@@ -47,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <test-fixture id="valueById">
     <template>
-      <iron-selector multi attr-for-selected="id">
+      <iron-selector multi="" attr-for-selected="id">
         <div id="item0">Item 0</div>
         <div id="item1">Item 1</div>
         <div id="item2">Item 2</div>
@@ -57,319 +41,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <!--
-  NOTE(cdata): Enable test-fixture when polymer/polymer#2495 is resolved
-  -->
-  <!--<test-fixture id="repeatedItems">
-    <template>-->
-      <iron-selector multi id="repeatedItems">
-        <template is="dom-repeat" items='["foo", "bar", "baz"]'>
+  
+  
+      <iron-selector multi="" id="repeatedItems">
+        <template is="dom-repeat" items="[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]">
           <div>[[item]]</div>
         </template>
         <div>vim</div>
       </iron-selector>
-    <!--</template>
-  </test-fixture>-->
+    
 
-  <script>
+  <script>suite("multi",function(){var e;setup(function(){e=fixture("test"),t=Polymer.dom(e).querySelector('[is="dom-repeat"]')}),test("honors the multi attribute",function(){assert.isTrue(e.multi)}),test("has sane defaults",function(){assert.equal(e.selectedValues,void 0),assert.equal(e.selectedClass,"iron-selected"),assert.equal(e.items.length,5)}),test("set multi-selection via selected property",function(){e.selectedValues=[0,2],assert.isTrue(e.children[0].classList.contains("iron-selected")),assert.isTrue(e.children[2].classList.contains("iron-selected")),assert.equal(e.selectedItems.length,2),assert.equal(e.selectedItems[0],e.children[0]),assert.equal(e.selectedItems[1],e.children[2])}),test("set multi-selection via tap",function(){MockInteractions.tap(e.children[0]),MockInteractions.tap(e.children[2]),assert.isTrue(e.children[0].classList.contains("iron-selected")),assert.isTrue(e.children[2].classList.contains("iron-selected")),assert.equal(e.selectedItems.length,2),assert.equal(e.selectedItems[0],e.children[0]),assert.equal(e.selectedItems[1],e.children[2])}),test("fire iron-select/deselect events when selectedValues changes",function(){var s=[e.children[0],e.children[1],e.children[2]],t=[0,0,0],l=[0,0,0];e.addEventListener("iron-select",function(e){t[s.indexOf(e.detail.item)]++}),e.addEventListener("iron-deselect",function(e){l[s.indexOf(e.detail.item)]++}),e.selectedValues=[0,1],e.selectedValues=[1,2],e.selectedValues=[],assert.equal(t[0],1),assert.equal(l[0],1),assert.equal(t[1],1),assert.equal(l[1],1),assert.equal(t[2],1),assert.equal(l[2],1)}),test("fire iron-select/deselect events when selectedValues is modified",function(){var s=[e.children[0],e.children[1],e.children[2]],t=[0,0,0],l=[0,0,0];e.addEventListener("iron-select",function(e){t[s.indexOf(e.detail.item)]++}),e.addEventListener("iron-deselect",function(e){l[s.indexOf(e.detail.item)]++}),e.selectedValues=[],e.push("selectedValues",0,1),e.shift("selectedValues"),e.push("selectedValues",2),e.shift("selectedValues"),assert.equal(t[0],1),assert.equal(l[0],1),assert.equal(t[1],1),assert.equal(l[1],1),assert.equal(t[2],1),assert.equal(l[2],0)}),test("fire iron-select/deselect events when toggling items",function(){var s=[e.children[0],e.children[1],e.children[2]],t=[0,0,0],l=[0,0,0];e.addEventListener("iron-select",function(e){t[s.indexOf(e.detail.item)]++}),e.addEventListener("iron-deselect",function(e){l[s.indexOf(e.detail.item)]++}),MockInteractions.tap(s[0]),MockInteractions.tap(s[1]),e.selectedValues=[1,2],MockInteractions.tap(s[1]),MockInteractions.tap(s[2]),assert.equal(t[0],1),assert.equal(l[0],1),assert.equal(t[1],1),assert.equal(l[1],1),assert.equal(t[2],1),assert.equal(l[2],1)}),test("toggle iron-selected class when toggling items selection",function(){var s=e.children[0],t=e.children[1];assert.isFalse(s.classList.contains("iron-selected")),assert.isFalse(t.classList.contains("iron-selected")),MockInteractions.tap(s),assert.isTrue(s.classList.contains("iron-selected")),assert.isFalse(t.classList.contains("iron-selected")),MockInteractions.tap(t),assert.isTrue(s.classList.contains("iron-selected")),assert.isTrue(t.classList.contains("iron-selected")),MockInteractions.tap(t),assert.isTrue(s.classList.contains("iron-selected")),assert.isFalse(t.classList.contains("iron-selected")),e.selectedValues=[0,1],assert.isTrue(s.classList.contains("iron-selected")),assert.isTrue(t.classList.contains("iron-selected")),e.selectedValues=[],assert.isFalse(s.classList.contains("iron-selected")),assert.isFalse(t.classList.contains("iron-selected"))}),test("fires selected-values-changed when selection changes",function(){var s=0;e.addEventListener("selected-values-changed",function(e){s++}),MockInteractions.tap(Polymer.dom(e).children[0]),MockInteractions.tap(Polymer.dom(e).children[0]),MockInteractions.tap(Polymer.dom(e).children[0]),expect(s)}),test("selects from items created by dom-repeat",function(s){var t,l=0;e=document.querySelector("#repeatedItems"),e.addEventListener("iron-select",function(e){l++}),Polymer.Base.async(function(){t=Polymer.dom(e).querySelector("div"),MockInteractions.tap(t),assert.equal(e.selectedItems[0].textContent,"foo"),s()})}),test("updates selection when dom changes",function(s){e=fixture("test"),Polymer.Base.async(function(){var t=Polymer.dom(e).querySelector(":first-child"),l=Polymer.dom(e).querySelector(":last-child");MockInteractions.tap(t),MockInteractions.tap(l),expect(e.selectedItems.length).to.be.equal(2),Polymer.dom(e).removeChild(l),Polymer.dom.flush(),expect(e.selectedItems.length).to.be.equal(1),expect(e.selectedItems[0]).to.be.equal(t),s()})}),suite("`select()` and `selectIndex()`",function(){var e;setup(function(){e=fixture("valueById")}),test("`select()` selects an item with the given value",function(){e.select("item1"),assert.equal(e.selectedValues.length,1),assert.equal(e.selectedValues.indexOf("item1"),0),e.select("item3"),assert.equal(e.selectedValues.length,2),assert.isTrue(e.selectedValues.indexOf("item3")>=0),e.select("item2"),assert.equal(e.selectedValues.length,3),assert.isTrue(e.selectedValues.indexOf("item2")>=0)}),test("`selectIndex()` selects an item with the given index",function(){e.selectIndex(1),assert.equal(e.selectedValues.length,1),assert.isTrue(e.selectedValues.indexOf("item1")>=0),assert.equal(e.selectedItems.length,1),assert.isTrue(e.selectedItems.indexOf(e.items[1])>=0),e.selectIndex(3),assert.equal(e.selectedValues.length,2),assert.isTrue(e.selectedValues.indexOf("item3")>=0),assert.equal(e.selectedItems.length,2),assert.isTrue(e.selectedItems.indexOf(e.items[3])>=0),e.selectIndex(0),assert.equal(e.selectedValues.length,3),assert.isTrue(e.selectedValues.indexOf("item0")>=0),assert.equal(e.selectedItems.length,3),assert.isTrue(e.selectedItems.indexOf(e.items[0])>=0)})})});</script>
 
-    suite('multi', function() {
 
-      var s;
 
-      setup(function () {
-        s = fixture('test');
-        t = Polymer.dom(s).querySelector('[is="dom-repeat"]');
-      });
-
-      test('honors the multi attribute', function() {
-        assert.isTrue(s.multi);
-      });
-
-      test('has sane defaults', function() {
-        assert.equal(s.selectedValues, undefined);
-        assert.equal(s.selectedClass, 'iron-selected');
-        assert.equal(s.items.length, 5);
-      });
-
-      test('set multi-selection via selected property', function() {
-        // set selectedValues
-        s.selectedValues = [0, 2];
-        // check selected class
-        assert.isTrue(s.children[0].classList.contains('iron-selected'));
-        assert.isTrue(s.children[2].classList.contains('iron-selected'));
-        // check selectedItems
-        assert.equal(s.selectedItems.length, 2);
-        assert.equal(s.selectedItems[0], s.children[0]);
-        assert.equal(s.selectedItems[1], s.children[2]);
-      });
-
-      test('set multi-selection via tap', function() {
-        // set selectedValues
-        MockInteractions.tap(s.children[0]);
-        MockInteractions.tap(s.children[2]);
-        // check selected class
-        assert.isTrue(s.children[0].classList.contains('iron-selected'));
-        assert.isTrue(s.children[2].classList.contains('iron-selected'));
-        // check selectedItems
-        assert.equal(s.selectedItems.length, 2);
-        assert.equal(s.selectedItems[0], s.children[0]);
-        assert.equal(s.selectedItems[1], s.children[2]);
-      });
-
-      test('fire iron-select/deselect events when selectedValues changes', function() {
-        // setup listener for iron-select/deselect events
-        var items = [s.children[0], s.children[1], s.children[2]], 
-            selectEventCounters = [0, 0, 0], 
-            deselectEventCounters = [0, 0, 0];
-
-        s.addEventListener('iron-select', function(e) {
-          selectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-        s.addEventListener('iron-deselect', function(e) {
-          deselectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-
-        // programatically select values 0 and 1 (both fire select)
-        s.selectedValues = [0, 1];
-
-        // programatically select values 1 and 2 (2 fires select, 0 fires deselect)
-        s.selectedValues = [1, 2];
-
-        // programatically deselect all values (1 and 2 fire deselect)
-        s.selectedValues = [];
-
-        // check events
-        assert.equal(selectEventCounters[0], 1);
-        assert.equal(deselectEventCounters[0], 1);
-        assert.equal(selectEventCounters[1], 1);
-        assert.equal(deselectEventCounters[1], 1);
-        assert.equal(selectEventCounters[2], 1);
-        assert.equal(deselectEventCounters[2], 1);
-      });
-
-      test('fire iron-select/deselect events when selectedValues is modified', function() {
-        // setup listener for iron-select/deselect events
-        var items = [s.children[0], s.children[1], s.children[2]],
-            selectEventCounters = [0, 0, 0],
-            deselectEventCounters = [0, 0, 0];
-
-        s.addEventListener('iron-select', function(e) {
-          selectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-        s.addEventListener('iron-deselect', function(e) {
-          deselectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-
-        s.selectedValues = []
-
-        // programatically select value 0
-        s.push('selectedValues', 0, 1);
-
-        // programatically deselect value 0
-        s.shift('selectedValues');
-
-        // programatically select value 2
-        s.push('selectedValues', 2);
-
-        // programatically deselect value 1
-        s.shift('selectedValues');
-
-        assert.equal(selectEventCounters[0], 1);
-        assert.equal(deselectEventCounters[0], 1);
-        assert.equal(selectEventCounters[1], 1);
-        assert.equal(deselectEventCounters[1], 1);
-        assert.equal(selectEventCounters[2], 1);
-        assert.equal(deselectEventCounters[2], 0);
-      });
-
-      test('fire iron-select/deselect events when toggling items', function() {
-        // setup listener for iron-select/deselect events
-        var items = [s.children[0], s.children[1], s.children[2]], 
-            selectEventCounters = [0, 0, 0], 
-            deselectEventCounters = [0, 0, 0];
-
-        s.addEventListener('iron-select', function(e) {
-          selectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-        s.addEventListener('iron-deselect', function(e) {
-          deselectEventCounters[items.indexOf(e.detail.item)]++;
-        });
-
-        // tap to select items 0 and 1 (both fire select)
-        MockInteractions.tap(items[0]);
-        MockInteractions.tap(items[1]);
-        
-        // programatically select values 1 and 2 (2 fires select, 0 fires deselect)
-        s.selectedValues = [1, 2];
-
-        // tap to deselect items 1 and 2 (both fire deselect)
-        MockInteractions.tap(items[1]);
-        MockInteractions.tap(items[2]);
-
-        // check events
-        assert.equal(selectEventCounters[0], 1);
-        assert.equal(deselectEventCounters[0], 1);
-        assert.equal(selectEventCounters[1], 1);
-        assert.equal(deselectEventCounters[1], 1);
-        assert.equal(selectEventCounters[2], 1);
-        assert.equal(deselectEventCounters[2], 1);
-      });
-
-      test('toggle iron-selected class when toggling items selection', function() {
-        // setup listener for iron-item-select/deselect events
-        var item0 = s.children[0], item1 = s.children[1];
-
-        assert.isFalse(item0.classList.contains('iron-selected'));
-        assert.isFalse(item1.classList.contains('iron-selected'));
-
-        // tap to select item 0 (add iron-selected class)
-        MockInteractions.tap(item0);
-
-        assert.isTrue(item0.classList.contains('iron-selected'));
-        assert.isFalse(item1.classList.contains('iron-selected'));
-        
-        // tap to select item 1 (add iron-selected class)
-        MockInteractions.tap(item1);
-        
-        assert.isTrue(item0.classList.contains('iron-selected'));
-        assert.isTrue(item1.classList.contains('iron-selected'));
-
-        // tap to deselect item 1 (remove iron-selected class)
-        MockInteractions.tap(item1);
-        
-        assert.isTrue(item0.classList.contains('iron-selected'));
-        assert.isFalse(item1.classList.contains('iron-selected'));
-
-        // programatically select both values (1 add iron-selected class)
-        s.selectedValues = [0, 1];
-
-        assert.isTrue(item0.classList.contains('iron-selected'));
-        assert.isTrue(item1.classList.contains('iron-selected'));
-
-        // programatically deselect all values (both removes iron-selected class)
-        s.selectedValues = [];
-        
-        assert.isFalse(item0.classList.contains('iron-selected'));
-        assert.isFalse(item1.classList.contains('iron-selected'));
-      });
-
-      test('fires selected-values-changed when selection changes', function() {
-        var selectedValuesChangedEventCounter = 0;
-
-        s.addEventListener('selected-values-changed', function(e) {
-          selectedValuesChangedEventCounter++;
-        });
-
-        MockInteractions.tap(Polymer.dom(s).children[0]);
-        MockInteractions.tap(Polymer.dom(s).children[0]);
-        MockInteractions.tap(Polymer.dom(s).children[0]);
-
-        expect(selectedValuesChangedEventCounter);
-      });
-
-      test('selects from items created by dom-repeat', function(done) {
-        var selectEventCounter = 0;
-        var firstChild;
-
-        s = document.querySelector('#repeatedItems');
-        s.addEventListener('iron-select', function(e) {
-          selectEventCounter++;
-        });
-
-        // NOTE(cdata): I guess `dom-repeat` doesn't stamp synchronously..
-        Polymer.Base.async(function() {
-          firstChild = Polymer.dom(s).querySelector('div');
-          MockInteractions.tap(firstChild);
-
-          assert.equal(s.selectedItems[0].textContent, 'foo');
-          done();
-        });
-      });
-
-      test('updates selection when dom changes', function(done) {
-        var selectEventCounter = 0;
-
-        s = fixture('test');
-
-        Polymer.Base.async(function() {
-          var firstChild = Polymer.dom(s).querySelector(':first-child');
-          var lastChild = Polymer.dom(s).querySelector(':last-child');
-
-          MockInteractions.tap(firstChild);
-          MockInteractions.tap(lastChild);
-
-          expect(s.selectedItems.length).to.be.equal(2);
-
-          Polymer.dom(s).removeChild(lastChild);
-
-          Polymer.dom.flush();
-
-          expect(s.selectedItems.length).to.be.equal(1);
-          expect(s.selectedItems[0]).to.be.equal(firstChild);
-
-          done();
-        });
-
-      });
-
-      suite('`select()` and `selectIndex()`', function() {
-        var selector;
-
-        setup(function() {
-          selector = fixture('valueById');
-        });
-
-        test('`select()` selects an item with the given value', function() {
-          selector.select('item1');
-          assert.equal(selector.selectedValues.length, 1);
-          assert.equal(selector.selectedValues.indexOf('item1'), 0);
-
-          selector.select('item3');
-          assert.equal(selector.selectedValues.length, 2);
-          assert.isTrue(selector.selectedValues.indexOf('item3') >= 0);
-
-          selector.select('item2');
-          assert.equal(selector.selectedValues.length, 3);
-          assert.isTrue(selector.selectedValues.indexOf('item2') >= 0);
-        });
-
-        test('`selectIndex()` selects an item with the given index', function() {
-          selector.selectIndex(1);
-          assert.equal(selector.selectedValues.length, 1);
-          assert.isTrue(selector.selectedValues.indexOf('item1') >= 0);
-          assert.equal(selector.selectedItems.length, 1);
-          assert.isTrue(selector.selectedItems.indexOf(selector.items[1]) >= 0);
-
-          selector.selectIndex(3);
-          assert.equal(selector.selectedValues.length, 2);
-          assert.isTrue(selector.selectedValues.indexOf('item3') >= 0);
-          assert.equal(selector.selectedItems.length, 2);
-          assert.isTrue(selector.selectedItems.indexOf(selector.items[3]) >= 0);
-
-          selector.selectIndex(0);
-          assert.equal(selector.selectedValues.length, 3);
-          assert.isTrue(selector.selectedValues.indexOf('item0') >= 0);
-          assert.equal(selector.selectedItems.length, 3);
-          assert.isTrue(selector.selectedItems.indexOf(selector.items[0]) >= 0);
-        });
-      });
-
-      /* test('toggle multi from true to false', function() {
-        // set selected
-        s.selected = [0, 2];
-        var first = s.selected[0];
-        // set mutli to false, so to make it single-selection
-        s.multi = false;
-        // selected should not be an array
-        assert.isNotArray(s.selected);
-        // selected should be the first value from the old array
-        assert.equal(s.selected, first);
-      }); */
-
-    });
-
-  </script>
-
-</body>
-</html>
+</body></html>

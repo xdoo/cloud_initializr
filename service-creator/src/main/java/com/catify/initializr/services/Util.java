@@ -25,7 +25,12 @@ public class Util {
     }
 
     public static String createServiceName(String name) {
-        return name.replaceAll("-", "").replaceAll("_", "").replaceAll("\\.", "").toLowerCase();
+        return name
+                .replaceAll("-", "") // minus
+                .replaceAll("_", "") // underscore
+                .replaceAll("\\.", "") // dot
+                .replaceAll(" ", "") // space
+                .toLowerCase();
     }
 
     public static String createServiceId(String name) {

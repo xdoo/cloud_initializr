@@ -1,18 +1,7 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
-The complete set of authors may be found at http://polymer.github.io/AUTHORS
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
--->
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <meta charset="UTF-8">
   <title>test for the waterfall effect</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 
   <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../../web-component-tester/browser.js"></script>
@@ -21,21 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../app-scroll-effects.html">
   <link rel="import" href="x-container.html">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 1000vh;
-    }
-
-    x-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 200px;
-    }
-  </style>
+  <style>body{margin:0;padding:0;height:1000vh;}x-container{position:fixed;top:0;left:0;right:0;height:200px;}</style>
 
 </head>
 <body>
@@ -46,42 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <script>
+  <script>suite("basic features",function(){var t;setup(function(){t=fixture("testHeader")}),test("show waterfall when needed",function(e){flush(function(){t._updateScrollState(0),assert.isFalse(t.hasAttribute("shadow")),t.isOnScreen=function(){return!0},t._updateScrollState(0),assert.isFalse(t.hasAttribute("shadow")),t.isContentBelow=function(){return!0},t._updateScrollState(0),assert.isTrue(t.hasAttribute("shadow")),t.isOnScreen=function(){return!1},t._updateScrollState(0),assert.isFalse(t.hasAttribute("shadow")),t.isContentBelow=function(){return!1},t._updateScrollState(0),assert.isFalse(t.hasAttribute("shadow")),e()})})});</script>
 
-    suite('basic features', function() {
-      var container;
 
-      setup(function() {
-        container = fixture('testHeader');
-      });
 
-      test('show waterfall when needed', function(done) {
-        flush(function() {
-          container._updateScrollState(0);
-          assert.isFalse(container.hasAttribute('shadow'));
-          container.isOnScreen = function() { return true; };
-
-          container._updateScrollState(0);
-          assert.isFalse(container.hasAttribute('shadow'));
-          container.isContentBelow = function() { return true; };
-
-          container._updateScrollState(0);
-          assert.isTrue(container.hasAttribute('shadow'));
-          container.isOnScreen = function() { return false; };
-
-          container._updateScrollState(0);
-          assert.isFalse(container.hasAttribute('shadow'));
-          container.isContentBelow = function() { return false; };
-
-          container._updateScrollState(0);
-          assert.isFalse(container.hasAttribute('shadow'));
-          done();
-        });
-      });
-
-    });
-
-  </script>
-
-</body>
-</html>
+</body></html>
