@@ -70,6 +70,7 @@
         url: {
           type: String,
           value: "http://www.initializr.io"
+          //value: "http://localhost:8080"
         }
       },
       setajax: function () {
@@ -98,10 +99,8 @@
       },
       handleResponse: function(request) {
         var blob = request.detail.response;
-        console.log(request.detail.response);
-
-        var url  = window.URL.createObjectURL(blob);
-        window.location.assign(url);
+        var name = this.domain.name.replace(/ /g,'').toLowerCase() + ".zip";
+        saveAs(blob, name);
       }
     });
   </script>
