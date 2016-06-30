@@ -22,18 +22,17 @@ public class DomainGeneratorService {
     private final ProxyGeneratorService proxyGen;
     private final DockerGeneratorService dockerGen;
     
-    protected final File pomTemplate;
+    protected final String pomTemplate;
 
     @Autowired
-    public DomainGeneratorService(ServiceGeneratorService serviceGen, RegistryGeneratorService registryGen, ProxyGeneratorService proxyGen, DockerGeneratorService dockerGen) {
+    public DomainGeneratorService(ServiceGeneratorService serviceGen, RegistryGeneratorService registryGen, ProxyGeneratorService proxyGen, DockerGeneratorService dockerGen, Util util) {
         this.serviceGen = serviceGen;
         this.registryGen = registryGen;
         this.proxyGen = proxyGen;
         this.dockerGen = dockerGen;
         
-        // import templates
-        ClassLoader classLoader = getClass().getClassLoader();
-	this.pomTemplate = new File(classLoader.getResource("templates/parent/pom.tmpl").getFile());
+        // import template
+	this.pomTemplate = util.readTemplateContent("templates/parent/pom.tmpl");
     }
  
     public void createDomain(Domain domain, FileSystem fs) {
