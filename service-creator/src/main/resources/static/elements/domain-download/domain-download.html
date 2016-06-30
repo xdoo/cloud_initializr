@@ -38,7 +38,7 @@
     </style>
     <iron-ajax
      id="ajax"
-     url="http://localhost:8080/zip/"
+     url="[[url]]/zip/"
      handle-as="blob"
      content-type="application/json"
      method="POST"
@@ -66,6 +66,11 @@
         domain: {
           type: Object,
           notify: true
+        },
+        url: {
+          type: String,
+          value: "http://www.initializr.io"
+          //value: "http://localhost:8080"
         }
       },
       setajax: function () {
@@ -94,10 +99,8 @@
       },
       handleResponse: function(request) {
         var blob = request.detail.response;
-        console.log(request.detail.response);
-
-        var url  = window.URL.createObjectURL(blob);
-        window.location.assign(url);
+        var name = this.domain.name.replace(/ /g,'').toLowerCase() + ".zip";
+        saveAs(blob, name);
       }
     });
   </script>

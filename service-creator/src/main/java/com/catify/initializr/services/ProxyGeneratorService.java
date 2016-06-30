@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class ProxyGeneratorService extends BaseServiceGeneratorService {
 
     @Autowired
-    public ProxyGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
-        super(mvn, docker, "proxy");
+    public ProxyGeneratorService(MavenStructureService mvn, DockerGeneratorService docker, Util util) {
+        super(mvn, docker, util, "proxy");
     }
     
     public void createProxy(FileSystem fs, Domain domain) {

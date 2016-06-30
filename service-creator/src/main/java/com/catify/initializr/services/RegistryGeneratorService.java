@@ -16,8 +16,8 @@ public class RegistryGeneratorService extends BaseServiceGeneratorService {
 
 
     @Autowired
-    public RegistryGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
-        super(mvn, docker, "registry");
+    public RegistryGeneratorService(MavenStructureService mvn, DockerGeneratorService docker, Util util) {
+        super(mvn, docker, util,"registry");
     }
 
     public void createRegistry(Domain domain, FileSystem fs) {

@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Map;
 import org.rythmengine.Rythm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,15 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class DockerGeneratorService {
     
-    private final File composeTemplate;
-    private final File cleanTemplate;
+    private final String composeTemplate;
+    private final String cleanTemplate;
 
-    public DockerGeneratorService() {
+    @Autowired
+    public DockerGeneratorService(Util util) {
         
         // import templates
-        ClassLoader classLoader = getClass().getClassLoader();
-        this.composeTemplate = new File(classLoader.getResource("templates/docker/dockercompose.tmpl").getFile());
-        this.cleanTemplate = new File(classLoader.getResource("templates/docker/clean.tmpl").getFile());
+        this.composeTemplate = util.readTemplateContent("templates/docker/dockercompose.tmpl");
+        this.cleanTemplate = util.readTemplateContent("templates/docker/clean.tmpl");
     }
 
     public void createServiceDockerFile(Map<String, Path> paths) {

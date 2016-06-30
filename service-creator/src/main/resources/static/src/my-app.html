@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
@@ -40,14 +41,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         left: 0;
         width: 100%;
         color: #fff;
-        background-color: var(--paper-lime-900);
+        background-color: var(--paper-green-500);
         --app-header-background-front-layer: {
           background-color: var(--paper-lime-900);
         };
       }
 
       app-toolbar.middle {
-        height: 120px;
+        height: 60px;
       }
       app-toolbar.bottom {
         height: 92px;
@@ -56,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       [title] {
         margin-left: 64px;
         font-size: 32px;
-        font-weight: 300;
+        font-weight: 150;
       }
       [condensed-title] {
         margin-left: 20px;
@@ -115,7 +116,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header effects="waterfall resize-title blend-background parallax-background" condenses reveals>
           <app-toolbar>
             <div condensed-title>build your cloud</div>
-            <paper-icon-button icon="social:share"></paper-icon-button>
           </app-toolbar>
           <app-toolbar class="middle"></app-toolbar>
           <app-toolbar class="bottom">
@@ -125,10 +125,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
           <my-new-view name="new-view"></my-new-view>
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <initializer name="initializer"></initializer>
         </iron-pages>
 
       </app-header-layout>

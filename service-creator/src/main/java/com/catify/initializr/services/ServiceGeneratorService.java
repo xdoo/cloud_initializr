@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class ServiceGeneratorService extends BaseServiceGeneratorService{
 
     @Autowired
-    public ServiceGeneratorService(MavenStructureService mvn, DockerGeneratorService docker) {
-        super(mvn, docker, "service");
+    public ServiceGeneratorService(MavenStructureService mvn, DockerGeneratorService docker, Util util) {
+        super(mvn, docker, util, "service");
     }
 
     public void createService(Domain domain, int index, FileSystem fs) {

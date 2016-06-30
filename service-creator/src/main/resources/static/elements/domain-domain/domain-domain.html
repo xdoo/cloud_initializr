@@ -1,5 +1,3 @@
-<link rel="import" href="../domain-card/domain-card.html">
-<link rel="import" href="../domain-service-card/domain-service-card.html">
 <link rel="import" href="../domain-download/domain-download.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -135,7 +133,6 @@
         } else {
           this.domain.services.push(service);
         }
-        console.log(JSON.stringify(this.domain));
       },
 
       checkService: function(name) {
@@ -148,6 +145,11 @@
         // name must not equal to 'proxy'
         if(name == 'proxy') {
           this.$.toast2.open();
+          return false;
+        }
+
+        // name must not be empty
+        if(typeof name == 'undefined' || name == ''){
           return false;
         }
 
