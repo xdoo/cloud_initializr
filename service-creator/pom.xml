@@ -5,7 +5,7 @@
 
     <groupId>com.catify</groupId>
     <artifactId>service-creator</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>service-creator</name>
